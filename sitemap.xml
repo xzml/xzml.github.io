@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo-Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>http://yoursite.com/wiki/%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90/%E7%BC%96%E7%A8%8B%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB/</loc>
     
-    <lastmod>2018-11-25T15:33:03.277Z</lastmod>
+    <lastmod>2018-11-26T15:31:17.017Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Unix/Vim/vim%E6%8A%80%E5%B7%A7/</loc>
+    
+    <lastmod>2018-11-26T15:22:31.770Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E4%B8%93%E4%B8%9A%E7%A0%94%E7%A9%B6/%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA%E5%8E%BB%E5%99%AA/</loc>
+    
+    <lastmod>2018-11-26T14:56:17.343Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Git%E5%A4%9A%E7%94%A8%E6%88%B7/</loc>
     
-    <lastmod>2018-11-25T15:29:18.042Z</lastmod>
+    <lastmod>2018-11-26T13:54:59.267Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Mac%E4%B8%8B%E4%BD%BF%E7%94%A8Hexo-Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
+    
+    <lastmod>2018-11-26T13:49:45.664Z</lastmod>
     
   </url>
   

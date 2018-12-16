@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Matplotlib响应按键浏览图片 | xzml 的个人 Wiki</title>
+    
+    
+        <meta name="keywords" content="Python,Matplotlib">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最近写了一个查找相似图像的算法, 目标是给定 A 图片, 然后在目录 B/ 中查找和 A 图片相似的图片. 假设在 B/ 中我找到了 10 张相似图片, 但是要查看这 10 张图, 在 Mac 上我先到文件夹下, 然后使用 preview 进行查看, 有点麻烦, 我想是否可以用 matplotlib 显示这些图片, 然后按下 n 就浏览下一张, 按下 N 浏览上一张. 于是就有了下面的脚本, 同时">
+<meta name="keywords" content="Python,Matplotlib">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matplotlib响应按键浏览图片">
+<meta property="og:url" content="http://yoursite.com/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/index.html">
+<meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="最近写了一个查找相似图像的算法, 目标是给定 A 图片, 然后在目录 B/ 中查找和 A 图片相似的图片. 假设在 B/ 中我找到了 10 张相似图片, 但是要查看这 10 张图, 在 Mac 上我先到文件夹下, 然后使用 preview 进行查看, 有点麻烦, 我想是否可以用 matplotlib 显示这些图片, 然后按下 n 就浏览下一张, 按下 N 浏览上一张. 于是就有了下面的脚本, 同时">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c163d7c4311f.gif">
+<meta property="og:updated_time" content="2018-12-16T12:11:08.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Matplotlib响应按键浏览图片">
+<meta name="twitter:description" content="最近写了一个查找相似图像的算法, 目标是给定 A 图片, 然后在目录 B/ 中查找和 A 图片相似的图片. 假设在 B/ 中我找到了 10 张相似图片, 但是要查看这 10 张图, 在 Mac 上我先到文件夹下, 然后使用 preview 进行查看, 有点麻烦, 我想是否可以用 matplotlib 显示这些图片, 然后按下 n 就浏览下一张, 按下 N 浏览上一张. 于是就有了下面的脚本, 同时">
+<meta name="twitter:image" content="https://i.loli.net/2018/12/16/5c163d7c4311f.gif">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="xzml 的个人 Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">xzml 的个人 Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            专业研究
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/专业研究/稀疏表示去噪/">稀疏表示去噪</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Unix
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Ubuntu
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Ubuntu软件安装/">Ubuntu软件安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Vim/vim技巧/">vim技巧</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            某些Tricks
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            程序语言
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Matplotlib
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Numpy
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            实用程序
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  <li class="file active"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            网络资源
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-程序语言/Python/实用程序/Matplotlib响应按键浏览图片" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/实用程序/">实用程序</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Matplotlib/">Matplotlib</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">
+            <time datetime="2018-12-16T11:10:40.000Z" itemprop="datePublished">2018-12-16</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/实用程序/Matplotlib响应按键浏览图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/实用程序/Matplotlib响应按键浏览图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/实用程序/Matplotlib响应按键浏览图片.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Matplotlib响应按键浏览图片
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ImageViewer-类的实现"><span class="toc-number">1.</span> <span class="toc-text">ImageViewer 类的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#按键响应"><span class="toc-number">1.1.</span> <span class="toc-text">按键响应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">2.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>最近写了一个查找相似图像的算法, 目标是给定 A 图片, 然后在目录 <code>B/</code> 中查找和 A 图片相似的图片. 假设在 <code>B/</code> 中我找到了 10 张相似图片, 但是要查看这 10 张图, 在 Mac 上我先到文件夹下, 然后使用 preview 进行查看, 有点麻烦, 我想是否可以用 matplotlib 显示这些图片, 然后按下 <code>n</code> 就浏览下一张, 按下 <code>N</code> 浏览上一张. 于是就有了下面的脚本, 同时复习一下 Matplotlib 的事件处理代码如何写.</p>
+<p><img src="https://i.loli.net/2018/12/16/5c163d7c4311f.gif" alt="2018-12-16 19.50.03.gif"></p>
+<h2 id="ImageViewer-类的实现"><a href="#ImageViewer-类的实现" class="headerlink" title="ImageViewer 类的实现"></a>ImageViewer 类的实现</h2><p><code>ImageViewer</code> 类的具体实现如下, <code>img_list</code> 是包含图像绝对路径的 list. 代码最后给了 demo, 很简单. demo 中的效果是浏览一个文件夹中的图片, 按 <code>n</code> 访问下一张, 按 <code>N</code> 访问上一张.</p>
+<figure class="highlight python"><figcaption><span>ImageViewer.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageViewer</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_list)</span>:</span></span><br><span class="line">        self.img_list = list(img_list)</span><br><span class="line">        self.fig, self.ax = plt.subplots()</span><br><span class="line">        self.num_of_img = len(self.img_list)</span><br><span class="line">        self.indicator = <span class="number">0</span></span><br><span class="line">        self.connect()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">path2array</span><span class="params">(self, img_path)</span>:</span></span><br><span class="line">        im = Image.open(img_path).convert(<span class="string">'RGB'</span>)</span><br><span class="line">        im = np.array(im)</span><br><span class="line">        <span class="keyword">return</span> im</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.img_list:</span><br><span class="line">            im = self.path2array(self.img_list[self.indicator])</span><br><span class="line">            self.ax.imshow(im)</span><br><span class="line">            plt.show()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.cidkey = self.fig.canvas.mpl_connect(</span><br><span class="line">            <span class="string">'key_press_event'</span>, self.on_keypress)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_keypress</span><span class="params">(self, event)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.img_list:</span><br><span class="line">            <span class="keyword">if</span> event.key <span class="keyword">in</span> [<span class="string">'n'</span>]:</span><br><span class="line">                self.indicator += <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> event.key <span class="keyword">in</span> [<span class="string">'N'</span>]:</span><br><span class="line">                self.indicator -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># dont worry about negative self.indicator, % will automatically handle it</span></span><br><span class="line">            self.indicator = self.indicator % self.num_of_img</span><br><span class="line">            im = self.path2array(self.img_list[self.indicator])</span><br><span class="line">            self.ax.imshow(im)</span><br><span class="line"></span><br><span class="line">        self.fig.canvas.draw()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">import</span> os</span><br><span class="line">    <span class="keyword">from</span> os.path <span class="keyword">import</span> join, exists</span><br><span class="line">    img_dir = <span class="string">'./bsd100'</span></span><br><span class="line">    img_list = [join(img_dir, name) <span class="keyword">for</span> name <span class="keyword">in</span> os.listdir(img_dir)]</span><br><span class="line">    viewer = ImageViewer(img_list)</span><br><span class="line">    viewer.show()</span><br></pre></td></tr></table></figure>
+<h3 id="按键响应"><a href="#按键响应" class="headerlink" title="按键响应"></a>按键响应</h3><p>Matplotlib 提供 <code>key_press_event</code>, 回调函数为 <code>self.on_keypress</code>. 在该函数中, 使用 <code>self.indicator</code> 记录当前指向第几张图片 (从 0 开始计数).</p>
+<p>为了循环访问的效果, 使用求余符号 <code>%</code> 控制 <code>self.indicator</code> 的变化.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">    self.cidkey = self.fig.canvas.mpl_connect(</span><br><span class="line">        <span class="string">'key_press_event'</span>, self.on_keypress)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_keypress</span><span class="params">(self, event)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> self.img_list:</span><br><span class="line">        <span class="keyword">if</span> event.key <span class="keyword">in</span> [<span class="string">'n'</span>]:</span><br><span class="line">            self.indicator += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> event.key <span class="keyword">in</span> [<span class="string">'N'</span>]:</span><br><span class="line">            self.indicator -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># dont worry about negative self.indicator, % will automatically handle it</span></span><br><span class="line">        self.indicator = self.indicator % self.num_of_img</span><br><span class="line">        im = self.path2array(self.img_list[self.indicator])</span><br><span class="line">        self.ax.imshow(im)</span><br><span class="line"></span><br><span class="line">    self.fig.canvas.draw()</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Logger用于log记录
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/网络资源/有意思的Github项目/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">有意思的Github项目</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            xzml &copy; 2018 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>

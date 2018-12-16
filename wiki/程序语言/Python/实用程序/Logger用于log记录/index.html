@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>Logger用于log记录 | xzml 的个人 Wiki</title>
+    
+    
+        <meta name="keywords" content="Python">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="写程序进行日志记录真的非常方便, 这里提供 InfoLogger 类, 用于对日志的记录. 比如: 12logger = InfoLogger(opt=None)logger.info(&apos;Hello World&apos;) 默认创建 log/ 文件夹并在该文件夹中记录日志, 如果要修改目录, 那么就要传入 opt 对象, 该对象需要分别指定 opt.log_checkpoint 属性说明日志存放的目录,">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logger用于log记录">
+<meta property="og:url" content="http://yoursite.com/wiki/程序语言/Python/实用程序/Logger用于log记录/index.html">
+<meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="写程序进行日志记录真的非常方便, 这里提供 InfoLogger 类, 用于对日志的记录. 比如: 12logger = InfoLogger(opt=None)logger.info(&apos;Hello World&apos;) 默认创建 log/ 文件夹并在该文件夹中记录日志, 如果要修改目录, 那么就要传入 opt 对象, 该对象需要分别指定 opt.log_checkpoint 属性说明日志存放的目录,">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c1640ab4af4f.png">
+<meta property="og:updated_time" content="2018-12-16T12:11:31.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logger用于log记录">
+<meta name="twitter:description" content="写程序进行日志记录真的非常方便, 这里提供 InfoLogger 类, 用于对日志的记录. 比如: 12logger = InfoLogger(opt=None)logger.info(&apos;Hello World&apos;) 默认创建 log/ 文件夹并在该文件夹中记录日志, 如果要修改目录, 那么就要传入 opt 对象, 该对象需要分别指定 opt.log_checkpoint 属性说明日志存放的目录,">
+<meta name="twitter:image" content="https://i.loli.net/2018/12/16/5c1640ab4af4f.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="xzml 的个人 Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">xzml 的个人 Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            专业研究
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/专业研究/稀疏表示去噪/">稀疏表示去噪</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Unix
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Ubuntu
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Ubuntu软件安装/">Ubuntu软件安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Vim/vim技巧/">vim技巧</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            某些Tricks
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            程序语言
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Matplotlib
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Numpy
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            实用程序
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file active"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            网络资源
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-程序语言/Python/实用程序/Logger用于log记录" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/实用程序/">实用程序</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">
+            <time datetime="2018-12-16T11:11:57.000Z" itemprop="datePublished">2018-12-16</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Logger用于log记录
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#InfoLogger-类的实现"><span class="toc-number">1.</span> <span class="toc-text">InfoLogger 类的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">2.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>写程序进行日志记录真的非常方便, 这里提供 <code>InfoLogger</code> 类, 用于对日志的记录. 比如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logger = InfoLogger(opt=<span class="keyword">None</span>)</span><br><span class="line">logger.info(<span class="string">'Hello World'</span>)</span><br></pre></td></tr></table></figure>
+<p>默认创建 <code>log/</code> 文件夹并在该文件夹中记录日志, 如果要修改目录, 那么就要传入 <code>opt</code> 对象, 该对象需要分别指定 <code>opt.log_checkpoint</code> 属性说明日志存放的目录, 以及 <code>opt.log_file</code> 属性: log 文件的名字.</p>
+<p>另外还提供 <code>args_namespace</code> 函数, 用于处理 <code>argparse.Namespace</code> 对象 (即 <code>opt = parser.parse_args()</code>). 具体效果看下面的内容.</p>
+<p>关于 opt 对象, 有 <code>log_checkpoint</code> 或 <code>log_file</code> 就行, 没有这两个属性就采用默认值.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parser = argparse.ArgumentParser(<span class="string">'Logger'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--log_checkpoint'</span>, type=str, default=<span class="string">'log/'</span>, help=<span class="string">'log directory'</span>)</span><br><span class="line">opt = parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">opt = type(<span class="string">'Option'</span>, (object,), &#123;&#125;)</span><br><span class="line">opt.log_checkpoint = <span class="string">'log/'</span></span><br></pre></td></tr></table></figure>
+<h2 id="InfoLogger-类的实现"><a href="#InfoLogger-类的实现" class="headerlink" title="InfoLogger 类的实现"></a>InfoLogger 类的实现</h2><figure class="highlight python"><figcaption><span>Logger.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint <span class="keyword">as</span> pp</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> exists, join</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">args_namespace</span><span class="params">(opt)</span>:</span></span><br><span class="line">    res = [<span class="string">"&#123;&#125;: &#123;&#125;\n"</span>.format(attr, getattr(opt, attr)) <span class="keyword">for</span> attr <span class="keyword">in</span> vars(opt)]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Argument Settings:\n"</span> + \</span><br><span class="line">            <span class="string">"===============================================================\n"</span> + \</span><br><span class="line">            <span class="string">""</span>.join(res) + \</span><br><span class="line">            <span class="string">"==============================================================="</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InfoLogger</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, opt=None)</span>:</span></span><br><span class="line">        super(InfoLogger, self).__init__()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> getattr(opt, <span class="string">'log_checkpoint'</span>, <span class="keyword">None</span>):</span><br><span class="line">            log_checkpoint = <span class="string">'log'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            log_checkpoint = opt.log_checkpoint</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> getattr(opt, <span class="string">'log_file'</span>, <span class="keyword">None</span>):</span><br><span class="line">            log_file = <span class="string">"&#123;:%Y-%m-%d-%H:%M:%S&#125;.log"</span>.format(datetime.now())</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            log_file = opt.log_file</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> exists(log_checkpoint):</span><br><span class="line">            os.makedirs(log_checkpoint)</span><br><span class="line"></span><br><span class="line">        logging.basicConfig(level=logging.INFO)</span><br><span class="line">        self.logger = logging.getLogger(<span class="string">'main'</span>)</span><br><span class="line">        handler = logging.FileHandler(join(log_checkpoint, log_file), mode=<span class="string">'w'</span>)</span><br><span class="line">        handler.setLevel(logging.INFO)</span><br><span class="line">        formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>, </span><br><span class="line">                                      datefmt=<span class="string">'%Y-%m-%d %H:%M:%S'</span>)</span><br><span class="line">        handler.setFormatter(formatter)</span><br><span class="line">        self.logger.addHandler(handler)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattr__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.logger.__getattribute__(item)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># you can also use argparse, I use `type` here just for convenience.</span></span><br><span class="line">    opt = type(<span class="string">'Option'</span>, (object, ), &#123;&#125;)</span><br><span class="line">    opt.log_checkpoint = <span class="string">'./infologger'</span></span><br><span class="line">    opt.log_file = <span class="string">'test.log'</span></span><br><span class="line"></span><br><span class="line">    logger = InfoLogger(opt)</span><br><span class="line">    logger.info(args_namespace(opt))</span><br><span class="line">    logger.info(<span class="string">'hello world'</span>)</span><br></pre></td></tr></table></figure>
+<p>demo 效果如下:</p>
+<p><img src="https://i.loli.net/2018/12/16/5c1640ab4af4f.png" alt="20181216-log.png"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/程序语言/Python/实用程序/查找相似图片/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    查找相似图片
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Matplotlib响应按键浏览图片</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            xzml &copy; 2018 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>

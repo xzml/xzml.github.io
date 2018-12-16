@@ -2,6 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/wiki/%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90/%E5%B7%A5%E5%85%B7%E6%80%A7%E7%BD%91%E7%AB%99%E6%80%BB%E7%BB%93/</loc>
+    
+    <lastmod>2018-12-16T14:50:33.405Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/Python/%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/%E6%9F%A5%E6%89%BE%E7%9B%B8%E4%BC%BC%E5%9B%BE%E7%89%87/</loc>
+    
+    <lastmod>2018-12-16T14:31:40.030Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Hexo%E5%BC%95%E7%94%A8%E7%AB%99%E5%86%85%E6%96%87%E7%AB%A0/</loc>
+    
+    <lastmod>2018-12-16T13:15:35.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/Python/%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/Logger%E7%94%A8%E4%BA%8Elog%E8%AE%B0%E5%BD%95/</loc>
+    
+    <lastmod>2018-12-16T12:11:31.502Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/Python/%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/Matplotlib%E5%93%8D%E5%BA%94%E6%8C%89%E9%94%AE%E6%B5%8F%E8%A7%88%E5%9B%BE%E7%89%87/</loc>
+    
+    <lastmod>2018-12-16T12:11:08.616Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Unix/Ubuntu/Ubuntu%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</loc>
     
     <lastmod>2018-11-28T15:42:03.235Z</lastmod>

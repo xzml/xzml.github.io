@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>查找相似图片 | xzml 的个人 Wiki</title>
+    
+    
+        <meta name="keywords" content="Python,Matplotlib">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="找相似图片的原理主要有颜色直方图, 感知哈希算法等, 详情可以看参考资料中阮一峰的博客, 相当之详细. 先看看效果吧:  ImageSimilarity 实现要运行该代码, 对于 python 库, 主要需要安装 pillow 以及 tqdm. 另外, 还需要我写的 ImageViewer.py 以及 Logger.py 文件, 它们分别可以在如下位置找到:  Matplotlib响应按键浏览图片">
+<meta name="keywords" content="Python,Matplotlib">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查找相似图片">
+<meta property="og:url" content="http://yoursite.com/wiki/程序语言/Python/实用程序/查找相似图片/index.html">
+<meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="找相似图片的原理主要有颜色直方图, 感知哈希算法等, 详情可以看参考资料中阮一峰的博客, 相当之详细. 先看看效果吧:  ImageSimilarity 实现要运行该代码, 对于 python 库, 主要需要安装 pillow 以及 tqdm. 另外, 还需要我写的 ImageViewer.py 以及 Logger.py 文件, 它们分别可以在如下位置找到:  Matplotlib响应按键浏览图片">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2018/12/16/5c165e0ed7c3c.gif">
+<meta property="og:updated_time" content="2018-12-16T14:31:40.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="查找相似图片">
+<meta name="twitter:description" content="找相似图片的原理主要有颜色直方图, 感知哈希算法等, 详情可以看参考资料中阮一峰的博客, 相当之详细. 先看看效果吧:  ImageSimilarity 实现要运行该代码, 对于 python 库, 主要需要安装 pillow 以及 tqdm. 另外, 还需要我写的 ImageViewer.py 以及 Logger.py 文件, 它们分别可以在如下位置找到:  Matplotlib响应按键浏览图片">
+<meta name="twitter:image" content="https://i.loli.net/2018/12/16/5c165e0ed7c3c.gif">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="xzml 的个人 Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">xzml 的个人 Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            专业研究
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/专业研究/稀疏表示去噪/">稀疏表示去噪</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Unix
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Ubuntu
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Ubuntu软件安装/">Ubuntu软件安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Vim/vim技巧/">vim技巧</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            某些Tricks
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            程序语言
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Matplotlib
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Numpy
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            实用程序
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file active"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            网络资源
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-程序语言/Python/实用程序/查找相似图片" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/实用程序/">实用程序</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Matplotlib/">Matplotlib</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/实用程序/查找相似图片/">
+            <time datetime="2018-12-16T12:19:01.000Z" itemprop="datePublished">2018-12-16</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            查找相似图片
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ImageSimilarity-实现"><span class="toc-number">1.</span> <span class="toc-text">ImageSimilarity 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">2.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>找相似图片的原理主要有颜色直方图, 感知哈希算法等, 详情可以看参考资料中阮一峰的博客, 相当之详细.</p>
+<p>先看看效果吧:</p>
+<p><img src="https://i.loli.net/2018/12/16/5c165e0ed7c3c.gif" alt="20181216221357.gif"></p>
+<h2 id="ImageSimilarity-实现"><a href="#ImageSimilarity-实现" class="headerlink" title="ImageSimilarity 实现"></a>ImageSimilarity 实现</h2><p>要运行该代码, 对于 python 库, 主要需要安装 <code>pillow</code> 以及 <code>tqdm</code>. 另外, 还需要我写的 <code>ImageViewer.py</code> 以及 <code>Logger.py</code> 文件, 它们分别可以在如下位置找到:</p>
+<ul>
+<li><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/" title="Matplotlib响应按键浏览图片">Matplotlib响应按键浏览图片</a></li>
+<li><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/" title="Logger用于log记录">Logger用于log记录</a>
+</li>
+</ul>
+<p>下面实现的 <code>Finder</code> 对象中的 <code>find_all</code> 方法, 传入要搜寻的目录, 从该目录中找到和目标图像相似的图像. 如果在运行程序时, 设置 <code>--show True</code>, 那么可以使用 <code>ImageViewer</code> 提供的功能, 方便的通过快捷键浏览图像.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> join, exists</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> ImageViewer <span class="keyword">import</span> ImageViewer</span><br><span class="line"><span class="keyword">from</span> Logger <span class="keyword">import</span> InfoLogger, args_namespace</span><br><span class="line"></span><br><span class="line">parser = argparse.ArgumentParser(<span class="string">'Find Similar Images'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--log_checkpoint'</span>, type=str, default=<span class="string">'./infologger'</span>, help=<span class="string">"log files savepath"</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--log_file'</span>, type=str, default=<span class="string">"&#123;:%Y-%m-%d-%H:%M:%S&#125;.log"</span>.format(datetime.now()), help=<span class="string">'logfile name'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--image'</span>, type=str, default=<span class="string">"./Set14/monarch.png"</span>, help=<span class="string">'base image name'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--search'</span>, type=str, default=<span class="string">"./bsd100"</span>, help=<span class="string">'which dir to search similar images'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--rank'</span>, type=int, default=<span class="number">10</span>, help=<span class="string">'how many similar images to search'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--method'</span>, type=str, default=<span class="string">'color_hist'</span>, help=<span class="string">'similar image algorithm, &#123;color_hist | avhash&#125;'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--show'</span>, type=str, default=<span class="string">'False'</span>,  help=<span class="string">'whether show similar images or not'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--savepath'</span>, type=str, default=<span class="string">'./ResultImgs'</span>, help=<span class="string">'path to save base image and similar_imgs'</span>)</span><br><span class="line"></span><br><span class="line">opt = parser.parse_args()</span><br><span class="line"></span><br><span class="line">logger = InfoLogger(opt)</span><br><span class="line">logger.info(args_namespace(opt))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Finder</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path)</span>:</span></span><br><span class="line">        self.base_img = img_path</span><br><span class="line">        self.similar_imgs = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">find_indir</span><span class="params">(self, img_dir, rank=<span class="number">20</span>, method=<span class="string">'color_hist'</span>)</span>:</span></span><br><span class="line">        <span class="string">"""method = &#123;'color_hist' | 'avhash'&#125;"""</span></span><br><span class="line">        logger.info(<span class="string">'Find similar image of: &#123;&#125;'</span>.format(self.base_img))</span><br><span class="line">        logger.info(<span class="string">'Searching directory: &#123;&#125;'</span>.format(img_dir))</span><br><span class="line">        seq = []</span><br><span class="line">        <span class="keyword">if</span> method == <span class="string">'avhash'</span>:</span><br><span class="line">            base_h = self.avhash(self.base_img)</span><br><span class="line">            <span class="keyword">for</span> filename <span class="keyword">in</span> tqdm(os.listdir(img_dir)):</span><br><span class="line">                fullname = join(img_dir, filename)</span><br><span class="line">                seq.append((fullname, self.hamming(self.avhash(fullname), base_h)))</span><br><span class="line">        <span class="keyword">elif</span> method == <span class="string">'color_hist'</span>:</span><br><span class="line">            <span class="keyword">for</span> filename <span class="keyword">in</span> tqdm(os.listdir(img_dir)):</span><br><span class="line">                fullname = join(img_dir, filename)</span><br><span class="line">                seq.append((fullname, <span class="number">-1</span> * self.color_hist(self.base_img, fullname, mode=<span class="number">2</span>)))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> idx, (f, ham) <span class="keyword">in</span> enumerate(sorted(seq, key=<span class="keyword">lambda</span> i: i[<span class="number">1</span>])):</span><br><span class="line">            <span class="keyword">if</span> idx &gt;= rank: <span class="keyword">break</span></span><br><span class="line">            logger.info(<span class="string">"&#123;&#125;\t&#123;&#125;"</span>.format(ham, f))</span><br><span class="line">            self.similar_imgs.append(f)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show_similar_imgs</span><span class="params">(self)</span>:</span></span><br><span class="line">        im = np.array(Image.open(self.base_img).convert(<span class="string">'RGB'</span>))</span><br><span class="line">        fig, ax = plt.subplots()</span><br><span class="line">        ax.imshow(im)</span><br><span class="line">        ax.set_title(<span class="string">'Base Image'</span>)</span><br><span class="line">        viewer = ImageViewer(self.similar_imgs)</span><br><span class="line">        viewer.fig.suptitle(<span class="string">'Similar Images'</span>)</span><br><span class="line">        viewer.show()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># https://blog.csdn.net/birdy_/article/details/78822901</span></span><br><span class="line">    <span class="comment"># https://blog.csdn.net/Mengwei_Ren/article/details/73359298</span></span><br><span class="line">    <span class="comment"># base on color histogram</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">difference</span><span class="params">(self, hist1, hist2)</span>:</span></span><br><span class="line">        sum1 = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(hist1)):</span><br><span class="line">           <span class="keyword">if</span> (hist1[i] == hist2[i]):</span><br><span class="line">              sum1 += <span class="number">1</span></span><br><span class="line">           <span class="keyword">else</span>:</span><br><span class="line">               sum1 += <span class="number">1</span> - float(abs(hist1[i] - hist2[i])) / max(hist1[i], hist2[i])</span><br><span class="line">        <span class="keyword">return</span> sum1/len(hist1)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">color_hist</span><span class="params">(self, path1 , path2 , mode=<span class="number">2</span>)</span>:</span></span><br><span class="line">        <span class="keyword">if</span>(mode == <span class="number">3</span>):</span><br><span class="line">            img1 = Image.open(path1).resize((<span class="number">8</span>,<span class="number">8</span>)).convert(<span class="string">'1'</span>)</span><br><span class="line">            img2 = Image.open(path2).resize((<span class="number">8</span>,<span class="number">8</span>)).convert(<span class="string">'1'</span>)</span><br><span class="line">            hist1 = list(img1.getdata())</span><br><span class="line">            hist2 = list(img2.getdata())</span><br><span class="line">            <span class="keyword">return</span> self.difference(hist1, hist2)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># preprocess</span></span><br><span class="line">        img1 = Image.open(path1).resize((<span class="number">256</span>,<span class="number">256</span>)).convert(<span class="string">'RGB'</span>)</span><br><span class="line">        img2 = Image.open(path2).resize((<span class="number">256</span>,<span class="number">256</span>)).convert(<span class="string">'RGB'</span>)</span><br><span class="line">        <span class="keyword">if</span>(mode == <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> self.difference(img1.histogram(), img2.histogram())</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(mode == <span class="number">2</span>):</span><br><span class="line">            sum = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">                    hist1 = img1.crop((i*<span class="number">64</span>, j*<span class="number">64</span>, i*<span class="number">64</span>+<span class="number">63</span>, j*<span class="number">64</span>+<span class="number">63</span>)).copy().histogram()</span><br><span class="line">                    hist2 = img2.crop((i*<span class="number">64</span>, j*<span class="number">64</span>, i*<span class="number">64</span>+<span class="number">63</span>, j*<span class="number">64</span>+<span class="number">63</span>)).copy().histogram()</span><br><span class="line">                    sum += self.difference(hist1, hist2)</span><br><span class="line">            <span class="keyword">return</span> sum/<span class="number">16</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># http://www.ruanyifeng.com/blog/2011/07/principle_of_similar_image_search.html</span></span><br><span class="line">    <span class="comment"># base on Perceptual hash algorithm</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">avhash</span><span class="params">(self, im)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(im, Image.Image):</span><br><span class="line">            im = Image.open(im)</span><br><span class="line">        im = im.resize((<span class="number">8</span>, <span class="number">8</span>), Image.ANTIALIAS).convert(<span class="string">'L'</span>)</span><br><span class="line">        avg = reduce(<span class="keyword">lambda</span> x, y: x + y, im.getdata()) / <span class="number">64.</span></span><br><span class="line">        <span class="keyword">return</span> reduce(<span class="keyword">lambda</span> x, yz: x | (yz[<span class="number">1</span>] &lt;&lt; yz[<span class="number">0</span>]), \</span><br><span class="line">                      enumerate(map(<span class="keyword">lambda</span> i: <span class="number">0</span> <span class="keyword">if</span> i &lt; avg <span class="keyword">else</span> <span class="number">1</span>, im.getdata())), \</span><br><span class="line">                      <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hamming</span><span class="params">(self, h1, h2)</span>:</span></span><br><span class="line">        h, d = <span class="number">0</span>, h1 ^ h2</span><br><span class="line">        <span class="keyword">while</span> d:</span><br><span class="line">            h += <span class="number">1</span></span><br><span class="line">            d &amp;= d - <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> h</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    finder = Finder(opt.image)</span><br><span class="line">    finder.find_indir(opt.search, rank=opt.rank, method=opt.method)</span><br><span class="line">    <span class="keyword">if</span> opt.show == <span class="string">'True'</span>:</span><br><span class="line">        finder.show_similar_imgs()</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/07/principle_of_similar_image_search.html" rel="external nofollow noopener noreferrer" target="_blank">相似图片搜索的原理</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2013/03/similar_image_search_part_ii.html" rel="external nofollow noopener noreferrer" target="_blank">相似图片搜索的原理（二）</a></li>
+<li><a href="https://blog.csdn.net/birdy_/article/details/78822901" rel="external nofollow noopener noreferrer" target="_blank">【python + PIL】图像相似度检测</a></li>
+<li><a href="https://blog.csdn.net/Mengwei_Ren/article/details/73359298" rel="external nofollow noopener noreferrer" target="_blank">【图像处理】图像检索的三种python实现(直方图/OpenCV/哈希法)</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/某些Tricks/Hexo引用站内文章/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Hexo引用站内文章
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Logger用于log记录</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            xzml &copy; 2018 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>

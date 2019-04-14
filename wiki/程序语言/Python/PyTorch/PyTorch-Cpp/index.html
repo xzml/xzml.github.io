@@ -3,19 +3,24 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>Category: Matplotlib | xzml 的个人 Wiki</title>
+    <title>PyTorch-C++ 接口 | xzml 的个人 Wiki</title>
     
     
-        <meta name="keywords" content="xzml 的个人 Wiki">
+        <meta name="keywords" content="PyTorch,C++">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="xzml 的个人 Wiki">
-<meta property="og:url" content="http://yoursite.com/categories/程序语言/Python/Matplotlib/index.html">
+    <meta name="description" content="介绍从 https://pytorch.org/ 下载 LibTorch 代码 Hello World写一个 Hello World 程序 123456789#include &amp;lt;iostream&amp;gt;#include &amp;lt;torch/torch.h&amp;gt;using namespace std;int main() &amp;#123;    torch::Tensor tensor = to">
+<meta name="keywords" content="PyTorch,C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch-C++ 接口">
+<meta property="og:url" content="http://yoursite.com/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/index.html">
 <meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="介绍从 https://pytorch.org/ 下载 LibTorch 代码 Hello World写一个 Hello World 程序 123456789#include &amp;lt;iostream&amp;gt;#include &amp;lt;torch/torch.h&amp;gt;using namespace std;int main() &amp;#123;    torch::Tensor tensor = to">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-14T06:14:14.811Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xzml 的个人 Wiki">
+<meta name="twitter:title" content="PyTorch-C++ 接口">
+<meta name="twitter:description" content="介绍从 https://pytorch.org/ 下载 LibTorch 代码 Hello World写一个 Hello World 程序 123456789#include &amp;lt;iostream&amp;gt;#include &amp;lt;torch/torch.h&amp;gt;using namespace std;int main() &amp;#123;    torch::Tensor tensor = to">
     
 
     
@@ -219,14 +224,14 @@
                          <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
                             程序语言
                         </a>
                          <ul class="unstyled" id="tree" style="display: block;"> 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
@@ -251,13 +256,13 @@
                          <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
                             PyTorch
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file active"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -352,50 +357,118 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-folder"></i></span>
-        <h1 class="title">Matplotlib</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-程序语言/Python/PyTorch/PyTorch-Cpp" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a>
-        </h1>
-    
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/PyTorch/">PyTorch</a>
+    </div>
 
-                <div class="article-meta">
-                    
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>, <a class="tag-link" href="/tags/PyTorch/">PyTorch</a>
+    </div>
+
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">
-            <time datetime="2018-11-27T06:56:46.000Z" itemprop="datePublished">2018-11-27</time>
+        <a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">
+            <time datetime="2019-04-14T04:01:00.000Z" itemprop="datePublished">2019-04-14</time>
         </a>
     </div>
 
 
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/Matplotlib/">Matplotlib</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Matplotlib/">Matplotlib</a>, <a class="tag-link" href="/tags/Python/">Python</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/PyTorch/PyTorch-Cpp.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/PyTorch/PyTorch-Cpp.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/PyTorch/PyTorch-Cpp.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
     
-</div>
+        <h1 class="article-title" itemprop="name">
+            PyTorch-C++ 接口
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">3.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>从 <code>https://pytorch.org/</code> 下载 LibTorch 代码</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>写一个 Hello World 程序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;torch/torch.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    torch::Tensor tensor = torch::rand(&#123;<span class="number">2</span>, <span class="number">2</span>&#125;);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; tensor &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>Makefile 如下:</p>
+<p>其中 <code>.../libtorch</code> 中保存着 LibTorch 的代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">TORCH = /Users/zhang/Codes/C++/pytorch-c++/libtorch</span><br><span class="line">CC = clang++</span><br><span class="line">CFLAGS = -Wall -std=c++0x</span><br><span class="line">CFLAGS += -I$(TORCH)/include -L$(TORCH)/lib</span><br><span class="line">CFLAGS += -I$(TORCH)/include/torch/csrc/api/include</span><br><span class="line">CLINKS = -ltorch.1 -lcaffe2 -lc10</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NAME = ex1</span><br><span class="line">SRC = $(NAME).cpp</span><br><span class="line">TAR = $(NAME).out</span><br><span class="line"></span><br><span class="line">$(TAR) : $(SRC)</span><br><span class="line">	$(CC) $(CFLAGS) -o <span class="variable">$@</span> $^ $(CLINKS)</span><br><span class="line"></span><br><span class="line">.PHONY : run clean</span><br><span class="line"></span><br><span class="line">run :</span><br><span class="line">	LD_LIBRARY_PATH=$(TORCH)/lib ./$(TAR)</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm -rf *.out</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/技术开发/Docker/Docker常用命令/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Docker常用命令</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
 </section>
         </div>
         <footer id="footer">

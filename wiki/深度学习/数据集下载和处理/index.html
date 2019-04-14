@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>数据集下载和处理 | xzml 的个人 Wiki</title>
+    
+    
+        <meta name="keywords" content="深度学习">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最近在考虑一个问题, 现在 PyTorch 等框架将网络训练整个流程都封装的很好, 比如数据下载, 预处理等等, 我在想如果以后遇到了非标准的数据集那该怎么办, 因此非常有必要自己将数据处理的部分从头动手做一遍, 于是有了下面的代码. 代码剖析完整代码可以看下一节, 这节对其中的细节作分析. 下载数据并解压1234567891011121314151617181920212223242526272">
+<meta name="keywords" content="深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据集下载和处理">
+<meta property="og:url" content="http://yoursite.com/wiki/深度学习/数据集下载和处理/index.html">
+<meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="最近在考虑一个问题, 现在 PyTorch 等框架将网络训练整个流程都封装的很好, 比如数据下载, 预处理等等, 我在想如果以后遇到了非标准的数据集那该怎么办, 因此非常有必要自己将数据处理的部分从头动手做一遍, 于是有了下面的代码. 代码剖析完整代码可以看下一节, 这节对其中的细节作分析. 下载数据并解压1234567891011121314151617181920212223242526272">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2019/04/14/5cb340d637a93.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/14/5cb343a911712.png">
+<meta property="og:updated_time" content="2019-04-14T15:30:32.004Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据集下载和处理">
+<meta name="twitter:description" content="最近在考虑一个问题, 现在 PyTorch 等框架将网络训练整个流程都封装的很好, 比如数据下载, 预处理等等, 我在想如果以后遇到了非标准的数据集那该怎么办, 因此非常有必要自己将数据处理的部分从头动手做一遍, 于是有了下面的代码. 代码剖析完整代码可以看下一节, 这节对其中的细节作分析. 下载数据并解压1234567891011121314151617181920212223242526272">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/14/5cb340d637a93.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="xzml 的个人 Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">xzml 的个人 Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            专业研究
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/专业研究/稀疏表示去噪/">稀疏表示去噪</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Docker
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Docker/Docker常用命令/">Docker常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Unix
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Ubuntu
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Ubuntu软件安装/">Ubuntu软件安装</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Vim/vim技巧/">vim技巧</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            某些Tricks
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file active"><a href="/wiki/深度学习/数据集下载和处理/">数据集下载和处理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            程序语言
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Matplotlib
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Numpy
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            PyTorch
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            实用程序
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            网络资源
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-深度学习/数据集下载和处理" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/深度学习/">深度学习</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/深度学习/数据集下载和处理/">
+            <time datetime="2019-04-14T13:46:23.000Z" itemprop="datePublished">2019-04-14</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/深度学习/数据集下载和处理.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/深度学习/数据集下载和处理.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/深度学习/数据集下载和处理.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            数据集下载和处理
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码剖析"><span class="toc-number">1.</span> <span class="toc-text">代码剖析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载数据并解压"><span class="toc-number">1.1.</span> <span class="toc-text">下载数据并解压</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MNIST"><span class="toc-number">2.</span> <span class="toc-text">MNIST</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CIFAR"><span class="toc-number">3.</span> <span class="toc-text">CIFAR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助代码"><span class="toc-number">3.1.</span> <span class="toc-text">辅助代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看图片"><span class="toc-number">3.1.1.</span> <span class="toc-text">查看图片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看一组图片"><span class="toc-number">3.1.2.</span> <span class="toc-text">查看一组图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整代码"><span class="toc-number">4.</span> <span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>最近在考虑一个问题, 现在 PyTorch 等框架将网络训练整个流程都封装的很好, 比如数据下载, 预处理等等, 我在想如果以后遇到了非标准的数据集那该怎么办, 因此非常有必要自己将数据处理的部分从头动手做一遍, 于是有了下面的代码.</p>
+<h2 id="代码剖析"><a href="#代码剖析" class="headerlink" title="代码剖析"></a>代码剖析</h2><p>完整代码可以看下一节, 这节对其中的细节作分析.</p>
+<h3 id="下载数据并解压"><a href="#下载数据并解压" class="headerlink" title="下载数据并解压"></a>下载数据并解压</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## progress bar of download_url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_bar_updater</span><span class="params">()</span>:</span></span><br><span class="line">    pbar = tqdm(total=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar_update</span><span class="params">(count, block_size, total_size)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> pbar.total <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> total_size:</span><br><span class="line">            pbar.total = total_size</span><br><span class="line">        <span class="comment">## `count` is incremental,</span></span><br><span class="line">        progress_bytes = count * block_size</span><br><span class="line">        <span class="comment">## `pbar.n`: current state of the bar</span></span><br><span class="line">        pbar.update(progress_bytes - pbar.n)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bar_update</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_url</span><span class="params">(url, root, filename=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">        os.makedirs(root)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> filename:</span><br><span class="line">        filename = os.path.basename(url)</span><br><span class="line">    fpath = os.path.join(root, filename)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(fpath):</span><br><span class="line">         print(<span class="string">'&#123;&#125; exists, no need downloding!'</span>.format(filename))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'Downloading &#123;&#125; to &#123;&#125;'</span>.format(url, fpath))</span><br><span class="line">        urllib.request.urlretrieve(url, fpath,</span><br><span class="line">                               reporthook=gen_bar_updater())</span><br><span class="line">    extract_gzip(fpath, remove_finished=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<p>使用 <code>urllib</code> 中的 <code>urlretrieve</code> 对 <code>url</code> 中的数据进行下载并保存到 <code>fpath</code> 路径, 其中 <code>reporthook</code> 参数接受一个函数对象, 该函数对象需要包含 <code>(count, block_size, total_size)</code> 三个参数, 因此该代码使用 <code>gen_bar_updater</code> 来产生该函数对象, 这样在下载数据时就会有一个进度条.</p>
+<ul>
+<li>在 <code>gen_bar_updater</code> 中, <code>count</code> 在每次更新都会变化, 进度条当前的位置为 <code>pbar.n</code>, 而下一步要变化到 <code>progress_bytes</code>, 因此当前更新中, 进度条需要前进 <code>progress_bytes - pbar.n</code>. 通过这个小知识, 可以了解 <code>tqdm</code> 大致是怎么运作的.</li>
+<li><code>if os.path.exists(fpath)</code> 表示, 如果数据已经下载, 那么可以不用处理, 直接去解压</li>
+<li>编写 <code>extract_gzip()</code> 函数来解压文件, 其中使用 <code>gzip</code> 包来处理 <code>*.gz</code> 文件, 使用 <code>tarfile</code> 包来处理 <code>*.tar.gz</code> 文件, 但是 <code>tarfile</code> 应该也可以处理 <code>*.gz</code> 文件… <code>extract_gzip</code> 这里就不详细介绍了. </li>
+</ul>
+<p>当将数据解压好后, 需要将数据读入内存, 最后将数据保存为大小为 <code>(N, C, H, W)</code> 的 Torch Tensor. 根据数据集是 MNIST 还是 CIFAR 需要分开处理.</p>
+<h2 id="MNIST"><a href="#MNIST" class="headerlink" title="MNIST"></a>MNIST</h2><p>MNIST 的网址是 <a href="http://yann.lecun.com/exdb/mnist/" rel="external nofollow noopener noreferrer" target="_blank">http://yann.lecun.com/exdb/mnist/</a></p>
+<p>根据网站中的介绍, MNIST 的训练数据 <code>train-images-idx3-ubyte</code> 是这样组织的:</p>
+<p><img src="https://i.loli.net/2019/04/14/5cb340d637a93.png" alt="mnist-train-set.png"></p>
+<ul>
+<li>首先, 肯定是以二进制的形式读取 <code>train-images-idx3-ubyte</code> 的:</li>
+</ul>
+<p>其中前 4 位为 magic number, 4~8 为图像数量, 8~12 为行数, 12~16 为列数, 最后剩下的位为图像自身的像素, <code>np.frombuffer</code> 可以直接解析这些二进制位, 注意其中的参数 <code>offset</code>. 此外, 为了得到图像数量等, 还使用了 <code>get_int</code>, 它可以将二进制位转换为整数, 首先将二进制编码为十六进制 <code>hex</code>, 然后转换为 10 进制. (发现好多函数自己真的不熟啊), </p>
+<ul>
+<li>最后通过 <code>torch.from_numpy</code> 将 numpy 数组转换为 Tensor.</li>
+<li>读取 label 同理, 但是需要注意一个问题, <strong>label 的类型是</strong> <strong>`LongTensor</strong>`!!!!</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_int</span><span class="params">(b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> int(codecs.encode(b, <span class="string">'hex'</span>), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_image_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">        <span class="keyword">assert</span> get_int(data[:<span class="number">4</span>]) == <span class="number">2051</span></span><br><span class="line">        num_images = get_int(data[<span class="number">4</span> : <span class="number">8</span>])</span><br><span class="line">        num_rows = get_int(data[<span class="number">8</span> : <span class="number">12</span>])</span><br><span class="line">        num_cols = get_int(data[<span class="number">12</span> : <span class="number">16</span>])</span><br><span class="line">        parsed = np.frombuffer(data, dtype=np.uint8, offset=<span class="number">16</span>)</span><br><span class="line">        <span class="keyword">return</span> torch.from_numpy(parsed).view(num_images, <span class="number">1</span>, num_rows, num_cols)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最终将 <code>(data, labels)</code> pair 保存到 <code>mnist_train.pth</code> 文件中:</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(os.path.join(path, data_file), <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    torch.save(dataset, f)</span><br></pre></td></tr></table></figure>
+<h2 id="CIFAR"><a href="#CIFAR" class="headerlink" title="CIFAR"></a>CIFAR</h2><p>CIFAR 的网址是 <a href="https://www.cs.toronto.edu/~kriz/cifar.html" rel="external nofollow noopener noreferrer" target="_blank">https://www.cs.toronto.edu/~kriz/cifar.html</a></p>
+<p>CIFAR 解压后是一个新的目录: <code>cifar-10-batches-py/</code>, 看看官网的介绍:</p>
+<p><img src="https://i.loli.net/2019/04/14/5cb343a911712.png" alt="cifar10-data.png"></p>
+<p>数据文件分为好几个: <code>data_batch_i</code> 以及 <code>test_batch</code>, 官网给了读取数据的代码, 我们可以利用. 读取成功后是一个字典, 虽然上面说 key 有 <code>data</code> 以及 <code>labels</code> 等, 但实际上是 <code>b&#39;data&#39;</code>.</p>
+<p>这里有个问题, 由于数据分成了好几个文件, 我要将它们组合成一个大的数据矩阵, 就需要将每个文件中的数据进行 concatenate, 如何优雅的写出这部分的代码呢? 如果以后有好的思路一定要记下来, 这里使用 <code>list comprehension</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unpickle</span><span class="params">(datafile)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> pickle</span><br><span class="line">    <span class="keyword">with</span> open(datafile, <span class="string">'rb'</span>) <span class="keyword">as</span> fo:</span><br><span class="line">        data_dict = pickle.load(fo, encoding=<span class="string">'bytes'</span>)</span><br><span class="line">    <span class="keyword">return</span> data_dict</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_batch</span><span class="params">(i, path, key=<span class="string">'data'</span>)</span>:</span></span><br><span class="line">    data_dict = unpickle(os.path.join(path, <span class="string">'data_batch_&#123;&#125;'</span>.format(i)))</span><br><span class="line">    <span class="keyword">return</span> data_dict[key]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prepare_dataset</span><span class="params">(...)</span>:</span></span><br><span class="line">    <span class="comment">### ...</span></span><br><span class="line">    data_array = np.concatenate(</span><br><span class="line">                [data_batch(i, cifar_path, <span class="string">b'data'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>)],</span><br><span class="line">                axis=<span class="number">0</span></span><br><span class="line">            )</span><br><span class="line">    label_array = np.concatenate(</span><br><span class="line">                [data_batch(i, cifar_path, <span class="string">b'labels'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>)],</span><br><span class="line">                axis=<span class="number">0</span></span><br><span class="line">            )</span><br><span class="line">    torch_data = torch.from_numpy(data_array).view(<span class="number">-1</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">32</span>)</span><br><span class="line">    torch_label= torch.from_numpy(label_array).long()</span><br><span class="line">	<span class="comment">### ...</span></span><br></pre></td></tr></table></figure>
+<p>so easy! 最后将结果保存在 <code>cifar_train/test.pth</code> 中.</p>
+<h3 id="辅助代码"><a href="#辅助代码" class="headerlink" title="辅助代码"></a>辅助代码</h3><h4 id="查看图片"><a href="#查看图片" class="headerlink" title="查看图片"></a>查看图片</h4><p>这可以显示一个 array.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_array</span><span class="params">(array, show=False)</span>:</span></span><br><span class="line">    array = np.array(array).transpose((<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">    h, w, c = array.shape</span><br><span class="line">    array = array.squeeze()</span><br><span class="line">    <span class="keyword">if</span> c &gt; <span class="number">1</span>: cmap = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">else</span>: cmap = <span class="string">'gray'</span></span><br><span class="line">    fig, ax = plt.subplots()</span><br><span class="line">    ax.imshow(array, cmap=cmap)</span><br><span class="line">    <span class="keyword">if</span> show:</span><br><span class="line">        plt.show()</span><br></pre></td></tr></table></figure>
+<p>需要注意两个问题:</p>
+<ul>
+<li>对于灰度图, 将数组大小转换为 <code>(h, w, 1)</code> 在扔进 <code>imshow</code> 中是会报错的, 因此需要使用 <code>squeeze()</code> 去掉 <code>1</code> 这个 dimension.</li>
+<li>如果是显示灰度图, <code>cmap</code> 可以设置为 <code>gray</code></li>
+</ul>
+<h4 id="查看一组图片"><a href="#查看一组图片" class="headerlink" title="查看一组图片"></a>查看一组图片</h4><p>显示一组 arrays</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_grid</span><span class="params">(arrays, n_cols=<span class="number">8</span>, cmap=<span class="string">'gray'</span>, show=False)</span>:</span></span><br><span class="line">    arrays = np.array(arrays).transpose((<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">    _, h, w, c = arrays.shape</span><br><span class="line">    arrays = arrays.squeeze()</span><br><span class="line">    <span class="keyword">if</span> c &gt; <span class="number">1</span>: cmap = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">else</span>: cmap = <span class="string">'gray'</span></span><br><span class="line">    num = arrays.shape[<span class="number">0</span>]</span><br><span class="line">    m, n = num // n_cols, n_cols</span><br><span class="line">    fig, axes = plt.subplots(m, n)</span><br><span class="line">    axes = axes.ravel()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">        axes[i].set_axis_off()</span><br><span class="line">        axes[i].imshow(arrays[i], cmap=cmap)</span><br><span class="line">    <span class="keyword">if</span> show:</span><br><span class="line">        plt.show()</span><br></pre></td></tr></table></figure>
+<p>同理, 只是这里每行显示 <code>n_cols</code> 张图片.</p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><p>参考了 <a href="https://github.com/pytorch/vision/tree/master/torchvision/datasets" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/pytorch/vision/tree/master/torchvision/datasets</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line"><span class="keyword">import</span> tarfile</span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment">## progress bar of download_url</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_bar_updater</span><span class="params">()</span>:</span></span><br><span class="line">    pbar = tqdm(total=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar_update</span><span class="params">(count, block_size, total_size)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> pbar.total <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> total_size:</span><br><span class="line">            pbar.total = total_size</span><br><span class="line">        progress_bytes = count * block_size</span><br><span class="line">        <span class="comment">## `count` is incremental,</span></span><br><span class="line">        <span class="comment">## `pbar.n`: current state of the bar</span></span><br><span class="line">        pbar.update(progress_bytes - pbar.n)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bar_update</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_url</span><span class="params">(url, root, filename=None)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">        os.makedirs(root)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> filename:</span><br><span class="line">        filename = os.path.basename(url)</span><br><span class="line">    fpath = os.path.join(root, filename)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.path.exists(fpath):</span><br><span class="line">         print(<span class="string">'&#123;&#125; exists, no need downloding!'</span>.format(filename))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'Downloading &#123;&#125; to &#123;&#125;'</span>.format(url, fpath))</span><br><span class="line">        urllib.request.urlretrieve(url, fpath,</span><br><span class="line">                               reporthook=gen_bar_updater())</span><br><span class="line">    extract_gzip(fpath, remove_finished=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_gzip</span><span class="params">(gzip_path, remove_finished=False)</span>:</span></span><br><span class="line">    <span class="comment"># ofile = gzip_path.replace('.gz', '')</span></span><br><span class="line">    components = gzip_path.split(<span class="string">'/'</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">'mnist'</span> <span class="keyword">in</span> gzip_path:</span><br><span class="line">        components[<span class="number">-1</span>] = components[<span class="number">-1</span>].split(<span class="string">'.'</span>)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">'cifar'</span> <span class="keyword">in</span> gzip_path:</span><br><span class="line">        components[<span class="number">-1</span>] = <span class="string">'cifar-10-batches-py'</span></span><br><span class="line">    ofile = <span class="string">'/'</span>.join(components)</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(ofile):</span><br><span class="line">        print(<span class="string">'&#123;&#125; exist!'</span>.format(ofile))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">'Extracting &#123;&#125;'</span>.format(gzip_path))</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'mnist'</span> <span class="keyword">in</span> gzip_path:</span><br><span class="line">            <span class="keyword">with</span> open(ofile, <span class="string">'wb'</span>) <span class="keyword">as</span> out_file, \</span><br><span class="line">                    gzip.GzipFile(gzip_path) <span class="keyword">as</span> in_file:</span><br><span class="line">                out_file.write(in_file.read())</span><br><span class="line">        <span class="keyword">elif</span> <span class="string">'cifar'</span> <span class="keyword">in</span> gzip_path:</span><br><span class="line">            tar = tarfile.open(gzip_path, <span class="string">"r:gz"</span>)</span><br><span class="line">            tar.extractall(os.path.dirname(gzip_path))</span><br><span class="line">            tar.close()</span><br><span class="line">        <span class="keyword">if</span> remove_finished:</span><br><span class="line">            os.remove(gzip_path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_int</span><span class="params">(b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> int(codecs.encode(b, <span class="string">'hex'</span>), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_image_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">        <span class="keyword">assert</span> get_int(data[:<span class="number">4</span>]) == <span class="number">2051</span></span><br><span class="line">        num_images = get_int(data[<span class="number">4</span> : <span class="number">8</span>])</span><br><span class="line">        num_rows = get_int(data[<span class="number">8</span> : <span class="number">12</span>])</span><br><span class="line">        num_cols = get_int(data[<span class="number">12</span> : <span class="number">16</span>])</span><br><span class="line">        parsed = np.frombuffer(data, dtype=np.uint8, offset=<span class="number">16</span>)</span><br><span class="line">        <span class="keyword">return</span> torch.from_numpy(parsed).view(num_images, <span class="number">1</span>, num_rows, num_cols)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_label_file</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">        <span class="keyword">assert</span> get_int(data[:<span class="number">4</span>]) == <span class="number">2049</span></span><br><span class="line">        num_images = get_int(data[<span class="number">4</span> : <span class="number">8</span>])</span><br><span class="line">        parsed = np.frombuffer(data, dtype=np.uint8, offset=<span class="number">8</span>)</span><br><span class="line">        <span class="keyword">return</span> torch.from_numpy(parsed).view(num_images).long()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unpickle</span><span class="params">(datafile)</span>:</span></span><br><span class="line">    <span class="keyword">import</span> pickle</span><br><span class="line">    <span class="keyword">with</span> open(datafile, <span class="string">'rb'</span>) <span class="keyword">as</span> fo:</span><br><span class="line">        data_dict = pickle.load(fo, encoding=<span class="string">'bytes'</span>)</span><br><span class="line">    <span class="keyword">return</span> data_dict</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_batch</span><span class="params">(i, path, key=<span class="string">'data'</span>)</span>:</span></span><br><span class="line">    data_dict = unpickle(os.path.join(path, <span class="string">'data_batch_&#123;&#125;'</span>.format(i)))</span><br><span class="line">    <span class="keyword">return</span> data_dict[key]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">prepare_dataset</span><span class="params">(name, path, Train=True)</span>:</span></span><br><span class="line">    training_file = name + <span class="string">'_train.pth'</span></span><br><span class="line">    testing_file = name + <span class="string">'_test.pth'</span></span><br><span class="line">    <span class="keyword">if</span> name == <span class="string">'mnist'</span>:</span><br><span class="line">        <span class="keyword">if</span> Train:</span><br><span class="line">            data_file = training_file</span><br><span class="line">            img_name = <span class="string">'train-images-idx3-ubyte'</span></span><br><span class="line">            label_name = <span class="string">'train-labels-idx1-ubyte'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data_file = testing_file</span><br><span class="line">            img_name = <span class="string">'t10k-images-idx3-ubyte'</span></span><br><span class="line">            label_name = <span class="string">'t10k-labels-idx1-ubyte'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> os.path.exists(os.path.join(path, data_file)):</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        dataset = (</span><br><span class="line">            read_image_file(os.path.join(path, img_name)),</span><br><span class="line">            read_label_file(os.path.join(path, label_name))</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(os.path.join(path, data_file), <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            torch.save(dataset, f)</span><br><span class="line">    <span class="keyword">elif</span> name == <span class="string">'cifar10'</span>:</span><br><span class="line">        cifar_path = os.path.join(path, <span class="string">'cifar-10-batches-py'</span>)</span><br><span class="line">        <span class="keyword">if</span> Train:</span><br><span class="line">            data_file = training_file</span><br><span class="line">            data_array = np.concatenate(</span><br><span class="line">                [data_batch(i, cifar_path, <span class="string">b'data'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>)],</span><br><span class="line">                axis=<span class="number">0</span></span><br><span class="line">            )</span><br><span class="line">            label_array = np.concatenate(</span><br><span class="line">                [data_batch(i, cifar_path, <span class="string">b'labels'</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>)],</span><br><span class="line">                axis=<span class="number">0</span></span><br><span class="line">            )</span><br><span class="line">            torch_data = torch.from_numpy(data_array).view(<span class="number">-1</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">32</span>)</span><br><span class="line">            torch_label= torch.from_numpy(label_array).long()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data_file = testing_file</span><br><span class="line">            data_dict = unpickle(os.path.join(cifar_path, <span class="string">'test_batch'</span>))</span><br><span class="line">            data_array = data_dict[<span class="string">b'data'</span>]</span><br><span class="line">            label_array = np.array(data_dict[<span class="string">b'labels'</span>])</span><br><span class="line">            torch_data = torch.from_numpy(data_array).view(<span class="number">-1</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">32</span>)</span><br><span class="line">            torch_label= torch.from_numpy(label_array).long()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> os.path.exists(os.path.join(path, data_file)):</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        dataset = (</span><br><span class="line">            torch_data,</span><br><span class="line">            torch_label,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(os.path.join(path, data_file), <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            torch.save(dataset, f)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_array</span><span class="params">(array, show=False)</span>:</span></span><br><span class="line">    array = np.array(array).transpose((<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">    h, w, c = array.shape</span><br><span class="line">    array = array.squeeze()</span><br><span class="line">    <span class="keyword">if</span> c &gt; <span class="number">1</span>: cmap = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">else</span>: cmap = <span class="string">'gray'</span></span><br><span class="line">    fig, ax = plt.subplots()</span><br><span class="line">    ax.imshow(array, cmap=cmap)</span><br><span class="line">    <span class="keyword">if</span> show:</span><br><span class="line">        plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_grid</span><span class="params">(arrays, n_cols=<span class="number">8</span>, cmap=<span class="string">'gray'</span>, show=False)</span>:</span></span><br><span class="line">    arrays = np.array(arrays).transpose((<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">    _, h, w, c = arrays.shape</span><br><span class="line">    arrays = arrays.squeeze()</span><br><span class="line">    <span class="keyword">if</span> c &gt; <span class="number">1</span>: cmap = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">else</span>: cmap = <span class="string">'gray'</span></span><br><span class="line">    num = arrays.shape[<span class="number">0</span>]</span><br><span class="line">    m, n = num // n_cols, n_cols</span><br><span class="line">    fig, axes = plt.subplots(m, n)</span><br><span class="line">    axes = axes.ravel()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">        axes[i].set_axis_off()</span><br><span class="line">        axes[i].imshow(arrays[i], cmap=cmap)</span><br><span class="line">    <span class="keyword">if</span> show:</span><br><span class="line">        plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    urls = [</span><br><span class="line">            <span class="string">'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'</span>,</span><br><span class="line">            <span class="string">'http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz'</span>,</span><br><span class="line">            <span class="string">'http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz'</span>,</span><br><span class="line">            <span class="string">'http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz'</span>,</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> urls:</span><br><span class="line">        download_url(url, <span class="string">'data'</span>, filename=<span class="keyword">None</span>)</span><br><span class="line">    prepare_dataset(<span class="string">'mnist'</span>, <span class="string">'data'</span>, Train=<span class="keyword">True</span>)</span><br><span class="line">    prepare_dataset(<span class="string">'mnist'</span>, <span class="string">'data'</span>, Train=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># with open('data/mnist_test.pth', 'rb') as f:</span></span><br><span class="line">        <span class="comment"># test_set = torch.load(f)</span></span><br><span class="line">        <span class="comment"># test_images, test_labels = test_set</span></span><br><span class="line">    <span class="comment"># print(test_images[0].numpy().shape)</span></span><br><span class="line">    <span class="comment"># show_array(test_images[0].numpy(), show=False)</span></span><br><span class="line">    <span class="comment"># show_grid(test_images[:16].numpy(), show=True)</span></span><br><span class="line">    urls = [</span><br><span class="line">        <span class="string">'https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'</span>,</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> urls:</span><br><span class="line">        download_url(url, <span class="string">'data'</span>, filename=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    prepare_dataset(<span class="string">'cifar10'</span>, <span class="string">'data'</span>, Train=<span class="keyword">True</span>)</span><br><span class="line">    prepare_dataset(<span class="string">'cifar10'</span>, <span class="string">'data'</span>, Train=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'data/cifar10_test.pth'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        test_set = torch.load(f)</span><br><span class="line">        test_images, test_labels = test_set</span><br><span class="line">    print(test_images[<span class="number">0</span>].numpy().shape)</span><br><span class="line">    show_array(test_images[<span class="number">0</span>].numpy(), show=<span class="keyword">False</span>)</span><br><span class="line">    show_grid(test_images[:<span class="number">16</span>].numpy(), show=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://github.com/pytorch/vision/blob/master/torchvision/datasets/utils.py" rel="external nofollow noopener noreferrer" target="_blank">pytorch torchvision:mnist.py</a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">PyTorch-C++ 接口</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            xzml &copy; 2019 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>

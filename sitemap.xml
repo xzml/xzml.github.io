@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/%E6%9C%89%E5%85%B3vncserver/</loc>
+    
+    <lastmod>2019-04-27T05:19:31.223Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90/%E7%BD%91%E7%BB%9C%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2019-04-26T05:58:26.248Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/wiki/%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84Github%E9%A1%B9%E7%9B%AE/</loc>
+    
+    <lastmod>2019-04-24T11:00:14.702Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/wiki/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%A4%84%E7%90%86/</loc>
     
     <lastmod>2019-04-14T15:30:32.004Z</lastmod>
@@ -68,13 +89,6 @@
     <loc>http://yoursite.com/wiki/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/Python/%E5%AE%9E%E7%94%A8%E7%A8%8B%E5%BA%8F/Matplotlib%E5%93%8D%E5%BA%94%E6%8C%89%E9%94%AE%E6%B5%8F%E8%A7%88%E5%9B%BE%E7%89%87/</loc>
     
     <lastmod>2018-12-16T12:11:08.616Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/wiki/%E7%BD%91%E7%BB%9C%E8%B5%84%E6%BA%90/%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84Github%E9%A1%B9%E7%9B%AE/</loc>
-    
-    <lastmod>2018-11-28T15:11:39.705Z</lastmod>
     
   </url>
   

@@ -216,7 +216,7 @@
                             &nbsp;
                             某些Tricks
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/有关vncserver/">有关vncserver</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/有关vncserver/">有关vncserver</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -248,7 +248,7 @@
                             &nbsp;
                             Matplotlib
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/绘制3D图像/">绘制3D图像</a></li>  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -266,7 +266,7 @@
                             &nbsp;
                             PyTorch
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">pytorch-grad</a></li>  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -288,7 +288,7 @@
                             &nbsp;
                             网络资源
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  <li class="file"><a href="/wiki/网络资源/网络在线课程学习/">网络在线课程学习.md</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/网络在线课程学习/">网络在线课程学习.md</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -362,6 +362,214 @@
 </aside>
             
             <section id="main">
+        <article id="post-程序语言/Python/Matplotlib/绘制3D图像" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/Matplotlib/">Matplotlib</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Matplotlib/">Matplotlib</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/Matplotlib/绘制3D图像/">
+            <time datetime="2019-05-13T15:24:07.000Z" itemprop="datePublished">2019-05-13</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/Matplotlib/绘制3D图像.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/Matplotlib/绘制3D图像.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/Matplotlib/绘制3D图像.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/wiki/程序语言/Python/Matplotlib/绘制3D图像/">绘制3D图像</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p></p><h2 id="绘制-3D-柱状图-Bar"><a href="#绘制-3D-柱状图-Bar" class="headerlink" title="绘制 3D 柱状图 Bar"></a>绘制 3D 柱状图 Bar</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(subplot_kw=&#123;<span class="string">'projection'</span>: <span class="string">'3d'</span>&#125;)</span><br><span class="line"><span class="comment"># 控制视角, 其中 elev 控制 z 方向的视角, 而 azim 控制 xy 平面的视角</span></span><br><span class="line">ax.view_init(elev=<span class="number">10</span>, azim=<span class="number">-80</span>) </span><br><span class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">y = np.array([<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 若 x \in R^m, y\in R^n, 那么 xx 和 yy 的结果都是 R^&#123;n \times m&#125;</span></span><br><span class="line">xx, yy = np.meshgrid(x, y)</span><br><span class="line">print(xx.shape, yy.shape)</span><br><span class="line">data = xx * yy</span><br><span class="line">z = np.zeros(data.size)</span><br><span class="line"><span class="comment"># bar 的宽度</span></span><br><span class="line">dx = <span class="number">0.45</span> * np.ones(data.size)</span><br><span class="line">dy = <span class="number">0.4</span> * np.ones(data.size)</span><br><span class="line">dz = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">ax.set_xlim(<span class="number">0</span>, <span class="number">8</span>)</span><br><span class="line">ax.set_ylim(<span class="number">0</span>, <span class="number">4</span>)</span><br><span class="line">ax.yaxis.set_visible(<span class="keyword">False</span>)</span><br><span class="line">ax.get_yaxis().set_ticks([])</span><br><span class="line">ax.set_zlim(<span class="number">0</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## xx.flatten(), yy.flatten(), z 在 xx 和 yy 围成的区域中进行描点, z 是在 z 轴方向描点,</span></span><br><span class="line"><span class="comment">## 但是 bar 是宽度的, 因此用 dx, dy, dz 来设置它们的宽度. 比如 dx[0] 表示第一个点的在 x 方向的</span></span><br><span class="line"><span class="comment">## 宽度是 0.45.</span></span><br><span class="line">ax.bar3d(xx.flatten(), yy.flatten(), z, dx, dy, dz, cmap=cm.coolwarm)</span><br><span class="line">print(ax.azim)</span><br></pre></td></tr></table></figure>
+<h2 id="绘制-3D-圆柱-Cylinder"><a href="#绘制-3D-圆柱-Cylinder" class="headerlink" title="绘制 3D 圆柱 Cylinder"></a>绘制 3D 圆柱 Cylinder</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sin, cos</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> cm</span><br><span class="line"><span class="keyword">from</span> matplotlib.transforms <span class="keyword">import</span> Bbox</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> join</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_cylinder_element</span><span class="params">(x, z, dz, rx = <span class="number">5</span>, ry = <span class="number">5</span>, color = <span class="string">"b"</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    x: left, right</span></span><br><span class="line"><span class="string">    z: start height</span></span><br><span class="line"><span class="string">    dz: height of cylinder</span></span><br><span class="line"><span class="string">    rx, ry = radius of width (x) and depth (y)</span></span><br><span class="line"><span class="string">    color = color</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Inspired by:</span></span><br><span class="line"><span class="string">http://matplotlib.1069221.n5.nabble.com/plot-surface-shading-and-clipping-error-td14031.html</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    N = <span class="number">50</span>             <span class="comment"># number of elements</span></span><br><span class="line">    <span class="comment"># a lower stride will give more faces. A cylinder with 4 faces is a cube :)</span></span><br><span class="line">    <span class="comment"># I think with N=100 and rstride=2, it will have 50 faces</span></span><br><span class="line">    <span class="comment"># cstride is the height, rstride the circle</span></span><br><span class="line">    cstride_side = <span class="number">1000</span> <span class="comment"># only 1 element needed</span></span><br><span class="line">    rstride_side = <span class="number">1</span>    <span class="comment"># many elements to make a nice cylinder shape</span></span><br><span class="line">    cstride_top = <span class="number">10</span>    </span><br><span class="line">    rstride_top = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># parameters of cylinder</span></span><br><span class="line">    phi = numpy.linspace(<span class="number">0</span>, <span class="number">2</span> * numpy.pi, N) </span><br><span class="line">    _r = numpy.ones(N) </span><br><span class="line">    _h = numpy.linspace(<span class="number">0</span>, <span class="number">1</span>, N) </span><br><span class="line"></span><br><span class="line">    <span class="comment"># cylinder</span></span><br><span class="line">    _x = rx * numpy.outer(numpy.cos(phi), _r) + x</span><br><span class="line">    _y = ry * numpy.outer(numpy.sin(phi), _r) </span><br><span class="line">    _z = dz * numpy.outer(numpy.ones(numpy.size(_r)), _h) + z</span><br><span class="line">    ax.plot_surface(_x, _y, _z, rstride = rstride_side, cstride = cstride_side, linewidth = <span class="number">0</span>, alpha = <span class="number">1</span>, color = color) </span><br><span class="line"></span><br><span class="line">    <span class="comment"># to cover the gaps between the faces, plot the cylinder again at a slightly smaller radius</span></span><br><span class="line">    _x *= <span class="number">0.99</span></span><br><span class="line">    _y *= <span class="number">0.99</span></span><br><span class="line">    ax.plot_surface(_x, _y, _z, rstride = rstride_side + <span class="number">1</span>, cstride = cstride_side + <span class="number">1</span>, linewidth=<span class="number">0</span>, alpha=<span class="number">1</span>, color = color) </span><br><span class="line"></span><br><span class="line">    <span class="comment"># top</span></span><br><span class="line">    _x = rx * numpy.outer(numpy.cos(phi), _h) + x</span><br><span class="line">    _y = ry * numpy.outer(numpy.sin(phi), _h) </span><br><span class="line">    _z = numpy.zeros([N,N]) + z + dz + <span class="number">0.01</span></span><br><span class="line">    ax.plot_surface(_x, _y, _z,  rstride = rstride_top, cstride = cstride_top, linewidth = <span class="number">0</span>, alpha = <span class="number">1</span>, color = color) </span><br><span class="line"></span><br><span class="line">    <span class="comment"># plot again with different stride to mask the gaps    </span></span><br><span class="line">    ax.plot_surface(_x, _y, _z, rstride = rstride_side + <span class="number">1</span>, cstride = cstride_side + <span class="number">1</span>, linewidth=<span class="number">0</span>, alpha=<span class="number">1</span>, color = color) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_cylinder</span><span class="params">(x, z, rx = <span class="number">5</span>, ry = <span class="number">5</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    x: left-right for each cylinder</span></span><br><span class="line"><span class="string">    z: list height difference (ie. not cumulative) </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># list with colors</span></span><br><span class="line">    colors = [<span class="string">"b"</span>, <span class="string">"g"</span>, <span class="string">"r"</span>, <span class="string">"c"</span>, <span class="string">"y"</span>, <span class="string">"k"</span>]</span><br><span class="line">    <span class="comment"># plot cylinder elements</span></span><br><span class="line">    _z = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(z)):</span><br><span class="line">        plot_cylinder_element(x, _z, z[i], rx = rx, ry = ry, color = colors[i % len(colors)])  </span><br><span class="line">        _z += z[i]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cylinder_plot</span><span class="params">(z, r = <span class="number">10</span>, dr = <span class="number">30</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    z: list of different cylinders with for each a list height difference (ie. not cumulative)</span></span><br><span class="line"><span class="string">    r: radius</span></span><br><span class="line"><span class="string">    dr: distance between cylinders    </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># different cylinders next to each other</span></span><br><span class="line">    x = numpy.arange(len(z)) * dr</span><br><span class="line">    <span class="comment"># possible difference between width (x) and depth (y)</span></span><br><span class="line">    rx = r</span><br><span class="line">    ry = r</span><br><span class="line">    <span class="comment"># make cylinders</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(z)):</span><br><span class="line">        plot_cylinder(x[i], z[i], rx = rx, ry = ry)</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots(subplot_kw=&#123;<span class="string">'projection'</span>: <span class="string">'3d'</span>&#125;)</span><br><span class="line">unit = <span class="number">100</span></span><br><span class="line">dpi = <span class="number">6</span> * unit</span><br><span class="line">width = <span class="number">8</span> * dpi</span><br><span class="line"><span class="comment"># height = 0.818 * width</span></span><br><span class="line">height = <span class="number">0.408</span> * width</span><br><span class="line">margin = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">figsize = ((width + <span class="number">2</span> * margin) / dpi, (height + <span class="number">2</span> * margin) / dpi)</span><br><span class="line">left = margin /dpi / figsize[<span class="number">0</span>]</span><br><span class="line">bottom = margin / dpi / figsize[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">fig.set_size_inches(figsize[<span class="number">0</span>], figsize[<span class="number">1</span>])</span><br><span class="line"><span class="comment"># 控制视角, 其中 elev 控制 z 方向的视角, 而 azim 控制 xy 平面的视角</span></span><br><span class="line">ax.view_init(elev=<span class="number">10</span>, azim=<span class="number">-80</span>)</span><br><span class="line">ax.set_xlim(<span class="number">-30</span>, <span class="number">240</span>)</span><br><span class="line">ax.set_ylim(<span class="number">-20</span>, <span class="number">80</span>)</span><br><span class="line"><span class="comment"># ax.set_zlim(26, 34)</span></span><br><span class="line">ax.yaxis.set_visible(<span class="keyword">False</span>)</span><br><span class="line">ax.get_yaxis().set_ticks([])</span><br><span class="line">ax.zaxis.set_ticklabels([<span class="number">26</span>, <span class="number">27</span>, <span class="number">28</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">32</span>])</span><br><span class="line"><span class="comment"># print(ax.get_zticks())</span></span><br><span class="line">r = <span class="number">10</span></span><br><span class="line">dr = <span class="number">45</span> <span class="comment"># distance between cylinders </span></span><br><span class="line">labels = [<span class="string">'Bicubic'</span>, <span class="string">'ScSR'</span>, <span class="string">'CSC-SR'</span>, <span class="string">'VDSR'</span>, <span class="string">'EDSR'</span>, <span class="string">'RDN'</span>]</span><br><span class="line"><span class="comment"># ScSR 的结果来自 https://github.com/jbhuang0604/SelfExSR</span></span><br><span class="line">plt.xticks([<span class="number">-5</span>, <span class="number">35</span>, <span class="number">85</span>, <span class="number">125</span>, <span class="number">175</span>, <span class="number">215</span>], labels, rotation=<span class="number">35</span>,</span><br><span class="line">           horizontalalignment=<span class="string">'right'</span>, rotation_mode=<span class="string">'anchor'</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line"><span class="comment"># cylinder_plot([[28.42], [29.07], [30.36], [31.35], [32.46], [32.47]], r, dr) </span></span><br><span class="line"><span class="comment"># zmin=26</span></span><br><span class="line">xdis = [<span class="number">-30</span>, <span class="number">15</span>, <span class="number">60</span>, <span class="number">105</span>, <span class="number">150</span>, <span class="number">195</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(xdis)):</span><br><span class="line">    xdis[i] += <span class="number">20</span></span><br><span class="line">ax.text(xdis[<span class="number">0</span>], <span class="number">0</span>, <span class="number">2.8</span>, <span class="string">'28.42'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">ax.text(xdis[<span class="number">1</span>], <span class="number">0</span>, <span class="number">3.4</span>, <span class="string">'29.07'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">ax.text(xdis[<span class="number">2</span>], <span class="number">0</span>, <span class="number">4.7</span>, <span class="string">'30.36'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">ax.text(xdis[<span class="number">3</span>], <span class="number">0</span>, <span class="number">5.7</span>, <span class="string">'31.35'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">ax.text(xdis[<span class="number">4</span>], <span class="number">0</span>, <span class="number">6.8</span>, <span class="string">'32.46'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">ax.text(xdis[<span class="number">5</span>], <span class="number">0</span>, <span class="number">6.9</span>, <span class="string">'32.47'</span>, fontsize=<span class="number">10</span>, fontweight=<span class="string">'bold'</span>)</span><br><span class="line">cylinder_plot([[<span class="number">2.42</span>], [<span class="number">3.07</span>], [<span class="number">4.36</span>], [<span class="number">5.35</span>], [<span class="number">6.46</span>], [<span class="number">6.47</span>]], r, dr) </span><br><span class="line"></span><br><span class="line">save_path = <span class="string">'/Users/zhang/Nutstore Files/Nutstore/ThesisPaper/答辩报告/figures'</span></span><br><span class="line"><span class="comment"># save_path = '.'</span></span><br><span class="line"><span class="comment"># plt.savefig(join(save_path, 'psnr_3d_cylinder.pdf'), dpi=dpi, bbox_inches=Bbox(np.array([[1.9, 0.25], [6.5, 2.5]])), pad_inches=0)</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>更为简单的使用方法是:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots(subplot_kw=&#123;<span class="string">'projection'</span>: <span class="string">'3d'</span>&#125;)</span><br><span class="line"><span class="comment"># 控制视角, 其中 elev 控制 z 方向的视角, 而 azim 控制 xy 平面的视角</span></span><br><span class="line">ax.view_init(elev=<span class="number">10</span>, azim=<span class="number">-80</span>)</span><br><span class="line">ax.set_xlim(<span class="number">-30</span>, <span class="number">80</span>)</span><br><span class="line">ax.set_ylim(<span class="number">-10</span>, <span class="number">40</span>)</span><br><span class="line">ax.yaxis.set_visible(<span class="keyword">False</span>)</span><br><span class="line">ax.get_yaxis().set_ticks([])</span><br><span class="line">cylinder_plot([[<span class="number">10</span>], [<span class="number">5</span>], [<span class="number">2</span>]])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p>
+                
+            
+        
+        
+            </p></blockquote></div>   
+            <div class="article-more-link">
+                <a href="/wiki/程序语言/Python/Matplotlib/绘制3D图像/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+
+    
+        <article id="post-程序语言/Python/PyTorch/pytorch-grad" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/PyTorch/">PyTorch</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/PyTorch/">PyTorch</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">
+            <time datetime="2019-05-13T15:12:58.000Z" itemprop="datePublished">2019-05-13</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/PyTorch/pytorch-grad.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/PyTorch/pytorch-grad.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/PyTorch/pytorch-grad.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">pytorch-grad</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p></p><h2 id="PyTorch-的自动求导"><a href="#PyTorch-的自动求导" class="headerlink" title="PyTorch 的自动求导"></a>PyTorch 的自动求导</h2><p>先看一个小例子:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = Variable(torch.ones(<span class="number">1</span>, <span class="number">2</span>), requires_grad=<span class="keyword">True</span>)</span><br><span class="line">linear = nn.Linear(<span class="number">2</span>, <span class="number">2</span>, bias=<span class="keyword">False</span>)</span><br><span class="line">linear.weight.data.copy_(torch.Tensor([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>]]))</span><br><span class="line"></span><br><span class="line">y = x</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">    y = linear(y)</span><br><span class="line"></span><br><span class="line">loss = y.sum()</span><br><span class="line">loss.backward()</span><br><span class="line">print(linear.weight.grad)</span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
+<p>其中 $y = W\cdot(W\cdot x)$, 使用 <code>.backward()</code> 即可自动求导了.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<p>
+                
+            
+        
+        
+            </p></ul></blockquote></div>   
+            <div class="article-more-link">
+                <a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+
+    
         <article id="post-某些Tricks/有关vncserver" class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
@@ -1181,214 +1389,6 @@
             </p></div>   
             <div class="article-more-link">
                 <a href="/wiki/某些Tricks/Hexo引用站内文章/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-
-    
-        <article id="post-程序语言/Python/实用程序/查找相似图片" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/实用程序/">实用程序</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Matplotlib/">Matplotlib</a>, <a class="tag-link" href="/tags/Python/">Python</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki/程序语言/Python/实用程序/查找相似图片/">
-            <time datetime="2018-12-16T12:19:01.000Z" itemprop="datePublished">2018-12-16</time>
-        </a>
-    </div>
-
-
-                        
-                            <i class="fa fa-bar-chart"></i>
-                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/实用程序/查找相似图片.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><p>找相似图片的原理主要有颜色直方图, 感知哈希算法等, 详情可以看参考资料中阮一峰的博客, 相当之详细.</p>
-<p>先看看效果吧:</p>
-<p><img src="https://i.loli.net/2018/12/16/5c165e0ed7c3c.gif" alt="20181216221357.gif"></p>
-<h2 id="ImageSimilarity-实现"><a href="#ImageSimilarity-实现" class="headerlink" title="ImageSimilarity 实现"></a>ImageSimilarity 实现</h2><p>要运行该代码, 对于 python 库, 主要需要安装 <code>pillow</code> 以及 <code>tqdm</code>. 另外, 还需要我写的 <code>ImageViewer.py</code> 以及 <code>Logger.py</code> 文件, 它们分别可以在如下位置找到:</p>
-<ul>
-<p>
-                
-            
-        
-        
-            </p></ul></div>   
-            <div class="article-more-link">
-                <a href="/wiki/程序语言/Python/实用程序/查找相似图片/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-
-    
-        <article id="post-程序语言/Python/实用程序/Logger用于log记录" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/实用程序/">实用程序</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Python/">Python</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">
-            <time datetime="2018-12-16T11:11:57.000Z" itemprop="datePublished">2018-12-16</time>
-        </a>
-    </div>
-
-
-                        
-                            <i class="fa fa-bar-chart"></i>
-                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/实用程序/Logger用于log记录.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><p>写程序进行日志记录真的非常方便, 这里提供 <code>InfoLogger</code> 类, 用于对日志的记录. 比如:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logger = InfoLogger(opt=<span class="keyword">None</span>)</span><br><span class="line">logger.info(<span class="string">'Hello World'</span>)</span><br></pre></td></tr></table></figure>
-<p>默认创建 <code>log/</code> 文件夹并在该文件夹中记录日志, 如果要修改目录, 那么就要传入 <code>opt</code> 对象, 该对象需要分别指定 <code>opt.log_checkpoint</code> 属性说明日志存放的目录, 以及 <code>opt.log_file</code> 属性: log 文件的名字.</p>
-<p>另外还提供 <code>args_namespace</code> 函数, 用于处理 <code>argparse.Namespace</code> 对象 (即 <code>opt = parser.parse_args()</code>). 具体效果看下面的内容.</p>
-<p>关于 opt 对象, 有 <code>log_checkpoint</code> 或 <code>log_file</code> 就行, 没有这两个属性就采用默认值.</p>
-<p>
-                
-            
-        
-        
-            </p></div>   
-            <div class="article-more-link">
-                <a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/#more">Read More</a>
             </div>
         
         <footer class="article-footer">

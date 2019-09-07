@@ -234,7 +234,7 @@
                             &nbsp;
                             某些Tricks
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/有关vncserver/">有关vncserver</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/有关vncserver/">有关vncserver</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -282,9 +282,18 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
+                            PyBind11
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/">pybind11使用demo</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
                             PyTorch
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">pytorch-grad</a></li>  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">pytorch-grad</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -293,7 +302,7 @@
                             &nbsp;
                             实用程序
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -306,7 +315,7 @@
                             &nbsp;
                             网络资源
                         </a>
-                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  <li class="file"><a href="/wiki/网络资源/网络在线课程学习/">网络在线课程学习.md</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  <li class="file"><a href="/wiki/网络资源/网络在线课程学习/">网络在线课程学习.md</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -380,6 +389,110 @@
 </aside>
             
             <section id="main">
+        <article id="post-程序语言/Python/PyBind11/pybind11使用demo" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/PyBind11/">PyBind11</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/PyBind11/">PyBind11</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/">
+            <time datetime="2019-09-07T06:51:06.000Z" itemprop="datePublished">2019-09-07</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/">pybind11使用demo</a>
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                    
+                    
+                
+                
+                    
+                    <p></p><p>为了让我们写的 C++ 代码能够在 Python 中被调用, pybind11 提供了大量 API 来实现这一目标. 本文给出一个 minimal demo 来介绍 pybind11 的基本使用方法.</p>
+<h2 id="文件结构介绍"><a href="#文件结构介绍" class="headerlink" title="文件结构介绍"></a>文件结构介绍</h2><p>这个 demo 包含如下的文件, 其中:</p>
+<ul>
+<li><code>utils</code> 目录中保存的是我们写的 C++ 程序;</li>
+<li><code>pybind</code> 目录则是利用 Pybind11 提供的功能来实现 Python 调用 C++ 程序;</li>
+<p>
+                
+            
+        
+        
+            </p></ul></div>   
+            <div class="article-more-link">
+                <a href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/#more">Read More</a>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+
+
+
+
+    
         <article id="post-大数据相关/Hive/Hive使用" class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
@@ -1303,110 +1416,6 @@
             </p></ul></blockquote></div>   
             <div class="article-more-link">
                 <a href="/wiki/技术开发/Docker/Docker常用命令/#more">Read More</a>
-            </div>
-        
-        <footer class="article-footer">
-        </footer>
-    </div>
-</article>
-
-
-
-
-
-
-    
-        <article id="post-某些Tricks/Make-Life-Easier" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-                    <div class="article-meta">
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/某些Tricks/">某些Tricks</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Tricks/">Tricks</a>
-    </div>
-
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/wiki/某些Tricks/Make-Life-Easier/">
-            <time datetime="2019-01-03T02:22:30.000Z" itemprop="datePublished">2019-01-03</time>
-        </a>
-    </div>
-
-
-                        
-                            <i class="fa fa-bar-chart"></i>
-                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
-                        
-                        
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/某些Tricks/Make-Life-Easier.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/某些Tricks/Make-Life-Easier.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
-                            </div>
-                            <div class="article-meta-button">
-                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/某些Tricks/Make-Life-Easier.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
-                            </div>
-                        
-                    </div>
-                
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a>
-        </h1>
-    
-
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-        
-            
-                
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                    
-                    
-                
-                
-                    
-                    <p></p><h2 id="我现在发现-为什么不用-Docker-…"><a href="#我现在发现-为什么不用-Docker-…" class="headerlink" title="我现在发现, 为什么不用 Docker …"></a>我现在发现, 为什么不用 Docker …</h2><p>是的, 赶紧把 Docker 用熟来. 装好 Docker 和 Nvidia-docker, 然后使用 sshfs 将远程服务器的文件映射到本地, 嗯, 真香~</p>
-<ul>
-<li><a href="https://docs.docker.com/install/" rel="external nofollow noopener noreferrer" target="_blank">Docker Documentation</a></li>
-<li><a href="https://github.com/NVIDIA/nvidia-docker" rel="external nofollow noopener noreferrer" target="_blank">NVIDIA-docker Documentation</a></li>
-</ul>
-<p>
-                
-            
-        
-        
-            </p></div>   
-            <div class="article-more-link">
-                <a href="/wiki/某些Tricks/Make-Life-Easier/#more">Read More</a>
             </div>
         
         <footer class="article-footer">

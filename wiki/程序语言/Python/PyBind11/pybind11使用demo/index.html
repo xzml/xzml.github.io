@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>pybind11使用demo | xzml 的个人 Wiki</title>
+    
+    
+        <meta name="keywords" content="PyBind11">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="为了让我们写的 C++ 代码能够在 Python 中被调用, pybind11 提供了大量 API 来实现这一目标. 本文给出一个 minimal demo 来介绍 pybind11 的基本使用方法. 文件结构介绍这个 demo 包含如下的文件, 其中:  utils 目录中保存的是我们写的 C++ 程序; pybind 目录则是利用 Pybind11 提供的功能来实现 Python 调用 C++">
+<meta name="keywords" content="PyBind11">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pybind11使用demo">
+<meta property="og:url" content="http://yoursite.com/wiki/程序语言/Python/PyBind11/pybind11使用demo/index.html">
+<meta property="og:site_name" content="xzml 的个人 Wiki">
+<meta property="og:description" content="为了让我们写的 C++ 代码能够在 Python 中被调用, pybind11 提供了大量 API 来实现这一目标. 本文给出一个 minimal demo 来介绍 pybind11 的基本使用方法. 文件结构介绍这个 demo 包含如下的文件, 其中:  utils 目录中保存的是我们写的 C++ 程序; pybind 目录则是利用 Pybind11 提供的功能来实现 Python 调用 C++">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-07T07:38:25.330Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pybind11使用demo">
+<meta name="twitter:description" content="为了让我们写的 C++ 代码能够在 Python 中被调用, pybind11 提供了大量 API 来实现这一目标. 本文给出一个 minimal demo 来介绍 pybind11 的基本使用方法. 文件结构介绍这个 demo 包含如下的文件, 其中:  utils 目录中保存的是我们写的 C++ 程序; pybind 目录则是利用 Pybind11 提供的功能来实现 Python 调用 C++">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="xzml 的个人 Wiki" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+    
+        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">xzml 的个人 Wiki</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id="categories">
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id="allExpand" href="#">
+                <i class="fa fa-angle-double-up fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            专业研究
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/专业研究/稀疏表示去噪/">稀疏表示去噪</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            大数据相关
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Hive
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/大数据相关/Hive/Hive使用/">Hive使用</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            技术开发
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Docker
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Docker/Docker常用命令/">Docker常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Unix
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Ubuntu
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Ubuntu软件安装/">Ubuntu软件安装</a></li>  <li class="file"><a href="/wiki/技术开发/Unix/Ubuntu/Bash技巧/">Bash技巧</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Vim
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/技术开发/Unix/Vim/vim技巧/">vim技巧</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            某些Tricks
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/某些Tricks/Git多用户/">Git多用户</a></li>  <li class="file"><a href="/wiki/某些Tricks/关于Wiki的主题/">关于Wiki的主题</a></li>  <li class="file"><a href="/wiki/某些Tricks/Mac下使用Hexo-Github搭建个人博客/">Mac下使用Hexo+Github搭建个人博客</a></li>  <li class="file"><a href="/wiki/某些Tricks/有关vncserver/">有关vncserver</a></li>  <li class="file"><a href="/wiki/某些Tricks/Make-Life-Easier/">Make Life Easier</a></li>  <li class="file"><a href="/wiki/某些Tricks/Hexo引用站内文章/">Hexo引用站内文章</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/深度学习/数据集下载和处理/">数据集下载和处理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            程序语言
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;"> 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Matplotlib
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/DetailViewer简要介绍/">DetailViewer简要介绍</a></li>  <li class="file"><a href="/wiki/程序语言/Python/Matplotlib/绘制3D图像/">绘制3D图像</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Numpy
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/Numpy/numpy中的random函数/">numpy中的random函数</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            PyBind11
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file active"><a href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/">pybind11使用demo</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            PyTorch
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/PyTorch-Cpp/">PyTorch-C++ 接口</a></li>  <li class="file"><a href="/wiki/程序语言/Python/PyTorch/pytorch-grad/">pytorch-grad</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            实用程序
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/程序语言/Python/实用程序/查找相似图片/">查找相似图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Matplotlib响应按键浏览图片/">Matplotlib响应按键浏览图片</a></li>  <li class="file"><a href="/wiki/程序语言/Python/实用程序/Logger用于log记录/">Logger用于log记录</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            网络资源
+                        </a>
+                         <ul class="unstyled" id="tree" style="display: block;">  <li class="file"><a href="/wiki/网络资源/工具性网站总结/">工具性网站总结</a></li>  <li class="file"><a href="/wiki/网络资源/有意思的Github项目/">有意思的Github项目</a></li>  <li class="file"><a href="/wiki/网络资源/网络在线课程学习/">网络在线课程学习.md</a></li>  <li class="file"><a href="/wiki/网络资源/编程资源汇总/">编程资源汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-程序语言/Python/PyBind11/pybind11使用demo" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/程序语言/">程序语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/">Python</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/程序语言/Python/PyBind11/">PyBind11</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/PyBind11/">PyBind11</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/程序语言/Python/PyBind11/pybind11使用demo/">
+            <time datetime="2019-09-07T06:51:06.000Z" itemprop="datePublished">2019-09-07</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/raw/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/edit/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a href="https://github.com/xzml/Wiki-site/commits/master/source/_posts/程序语言/Python/PyBind11/pybind11使用demo.md" rel="external nofollow noopener noreferrer" target="_blank"> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            pybind11使用demo
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件结构介绍"><span class="toc-number">1.</span> <span class="toc-text">文件结构介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-程序"><span class="toc-number">2.</span> <span class="toc-text">C++ 程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用-Pybind11-构建-Python-接口"><span class="toc-number">3.</span> <span class="toc-text">利用 Pybind11 构建 Python 接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写测试文件"><span class="toc-number">4.</span> <span class="toc-text">编写测试文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译模块-Makefile-文件的编写"><span class="toc-number">5.</span> <span class="toc-text">编译模块, Makefile 文件的编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行测试文件"><span class="toc-number">6.</span> <span class="toc-text">运行测试文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>为了让我们写的 C++ 代码能够在 Python 中被调用, pybind11 提供了大量 API 来实现这一目标. 本文给出一个 minimal demo 来介绍 pybind11 的基本使用方法.</p>
+<h2 id="文件结构介绍"><a href="#文件结构介绍" class="headerlink" title="文件结构介绍"></a>文件结构介绍</h2><p>这个 demo 包含如下的文件, 其中:</p>
+<ul>
+<li><code>utils</code> 目录中保存的是我们写的 C++ 程序;</li>
+<li><code>pybind</code> 目录则是利用 Pybind11 提供的功能来实现 Python 调用 C++ 程序;</li>
+<li><code>package.so</code> 是编译 <code>pybind/</code> 中的内容后得到的 Python 包, 可以使用 <code>import package</code> 调用;</li>
+<li><code>test.py</code> 用来测试 Python 是否能正常使用编译后的 <code>package.so</code>;</li>
+<li><code>Makefile</code> 用来组织整个工程.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Makefile</span><br><span class="line">├── package.so</span><br><span class="line">├── pybind</span><br><span class="line">│   ├── add.cc</span><br><span class="line">│   ├── subtract.cc</span><br><span class="line">│   ├── main.cc</span><br><span class="line">│   └── package.h</span><br><span class="line">├── test.py</span><br><span class="line">└── utils</span><br><span class="line">    ├── add.cc</span><br><span class="line">    └── add.h</span><br></pre></td></tr></table></figure>
+<p>下面依次介绍上面的列出的文件.</p>
+<h2 id="C-程序"><a href="#C-程序" class="headerlink" title="C++ 程序"></a>C++ 程序</h2><p>首先介绍底层 C++ 代码, 其中 <code>add.h</code> 中声明了几个简单的函数:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _UTILS_ADD_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _UTILS_ADD_H</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">add</span><span class="params">(<span class="keyword">double</span>, <span class="keyword">double</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">subtract</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>在 <code>add.cc</code> 中对这些函数进行实现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">add</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">subtract</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在写这些代码时, 我们无需考虑之后 Python 中如何调用, 只需要用 C++ 实现所需的功能. 之后专门创建一个文件夹, 比如 <code>pybind/</code>, 来处理 C++ 和 Python 交互的事宜, 以避免相互干扰.</p>
+<h2 id="利用-Pybind11-构建-Python-接口"><a href="#利用-Pybind11-构建-Python-接口" class="headerlink" title="利用 Pybind11 构建 Python 接口"></a>利用 Pybind11 构建 Python 接口</h2><p><code>pybind</code> 的目录原本可以更为简单, 只用一个文件就可以实现所需的功能, 但按下面这种形式来划分, 代码结构会更为清晰. 其中 <code>add.cc</code> 和 <code>subtract.cc</code> 分别实现向 Python 提供加法和减法操作, 而 <code>main.cc</code> 实现在 Python 中提供 <code>package</code> 这个包. 此外这样组织代码还可以减少编译时间, 具体参考:</p>
+<p><a href="https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-reduce-the-build-time" rel="external nofollow noopener noreferrer" target="_blank">How can I reduce the build time?</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">├── pybind</span><br><span class="line">│   ├── add.cc</span><br><span class="line">│   ├── subtract.cc</span><br><span class="line">│   ├── main.cc</span><br><span class="line">│   └── package.h</span><br></pre></td></tr></table></figure>
+<p>首先看 <code>package.h</code> 中的代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _PACKAGE_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _PACKAGE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/stl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/stl_bind.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"utils/add.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_add</span><span class="params">(py::<span class="keyword">module</span> &amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_sub</span><span class="params">(py::<span class="keyword">module</span> &amp;)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>主要是导入 <code>pybind11</code> 的相关头文件, 并按照 <a href="https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-reduce-the-build-time" rel="external nofollow noopener noreferrer" target="_blank">How can I reduce the build time?</a> 中介绍的方式提供两个以 <code>py::module &amp;</code> 作为参数的函数; 此外, 为了和前面写的 C++ 程序交互, 需要导入对应的头文件 <code>utils/add.h</code>.</p>
+<p>再来看 <code>add.cc</code> 以及 <code>subtract.cc</code> 的实现:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"package.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_add</span><span class="params">(py::<span class="keyword">module</span> &amp;m)</span> </span>&#123;</span><br><span class="line">    m.def(<span class="string">"add"</span>, (<span class="keyword">int</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>))&amp;add, <span class="string">"add two int numbers"</span>);</span><br><span class="line">    m.def(<span class="string">"add"</span>, (<span class="keyword">double</span> (*)(<span class="keyword">double</span>, <span class="keyword">double</span>))&amp;add, <span class="string">"add two double numbers"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以及</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"package.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_sub</span><span class="params">(py::<span class="keyword">module</span> &amp;m)</span> </span>&#123;</span><br><span class="line">    m.def(<span class="string">"subtract"</span>, (<span class="keyword">int</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>))&amp;subtract, <span class="string">"subtract two int numbers"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后使用 <code>main.cc</code> 提供到 Python 的入口, build <code>package</code> 这个 module:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"package.h"</span></span></span><br><span class="line"></span><br><span class="line">PYBIND11_MODULE(package, m) &#123;</span><br><span class="line">    init_add(m);</span><br><span class="line">    init_sub(m);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编写测试文件"><a href="#编写测试文件" class="headerlink" title="编写测试文件"></a>编写测试文件</h2><p>如果 <code>package.so</code> 编译成功, 那么在 Python 中就能正常使用:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> package</span><br><span class="line"></span><br><span class="line">print(package.add(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">print(package.add(<span class="number">1.0</span>, <span class="number">2.0</span>))</span><br><span class="line">print(package.subtract(<span class="number">1</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="编译模块-Makefile-文件的编写"><a href="#编译模块-Makefile-文件的编写" class="headerlink" title="编译模块, Makefile 文件的编写"></a>编译模块, Makefile 文件的编写</h2><p>感觉写 C++ 代码最难的事情之一应该包括 Makefile 的编写, 先将代码贴出来, 再慢慢解析:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NAME := package</span><br><span class="line">SRC := $(shell find pybind -name <span class="string">"*.cc"</span>)</span><br><span class="line">TAR := $(NAME).so</span><br><span class="line"></span><br><span class="line">INCLUDE_DIRS := $(dir .)</span><br><span class="line">INCLUDE_DIRS += $(shell find utils -depth 0) </span><br><span class="line">INCLUDE_DIRS += $(shell find pybind -depth 0) </span><br><span class="line">CXX_SRCS := $(shell find utils -name <span class="string">"*.cc"</span>)</span><br><span class="line">CXX_OBJS := $(CXX_SRCS:.cc=.o)</span><br><span class="line"></span><br><span class="line">CXX := clang++</span><br><span class="line">CXXFLAGS := -Wall -std=c++0x -shared -fPIC -Wl,-undefined,dynamic_lookup</span><br><span class="line">CXXFLAGS += $(foreach includedir,$(INCLUDE_DIRS),-I$(includedir))</span><br><span class="line">CXXFLAGS += $(foreach includedir,$(INCLUDE_DIRS),-L$(includedir))</span><br><span class="line">CXXFLAGS += `python -m pybind11 --includes`</span><br><span class="line">CXXLINKS :=</span><br><span class="line"></span><br><span class="line">$(TAR) : $(SRC) $(CXX_OBJS)</span><br><span class="line">	$(CXX) $(CXXFLAGS) -o <span class="variable">$@</span> $^ $(CXXLINKS)</span><br><span class="line"></span><br><span class="line">.PHONY : clean</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">	rm -rf $(CXX_OBJS) $(TAR)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>package.so</code> 依赖的文件是 <code>pybind/</code> 目录下的 pybind11 代码(使用 <code>$(SRC)</code> 表示)以及 <code>utils/</code> 中的 C++ 代码(使用 <code>$(CXX_OBJS)</code> 表示);</li>
+<li>根据 <a href="https://seisman.github.io/how-to-write-makefile/Makefile.pdf" rel="external nofollow noopener noreferrer" target="_blank">跟我一起写 Makefile</a> 9.3 节 “隐含规则使用的变量” 中的介绍, 像 <code>CXX</code>, <code>CXXFLAGS</code> 是 make 定义的隐含规则的变量, 需要注意.</li>
+<li>编译成 <code>.so</code> 文件需要使用 <code>-shared -fPIC</code>; 此外在 Mac 下编译还需要加上 <code>-Wl,-undefined,dynamic_lookup</code>(参考 <a href="https://github.com/pybind/pybind11/issues/382" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/pybind/pybind11/issues/382</a>);</li>
+<li><code>$(CXX_OBJS)</code> 会通过 make 的隐含规则进行编译, 它们是 <code>utils/</code> 目录下 C++ 代码编译后的目标文件;</li>
+<li>最后用 <code>$(CXX) $(CXXFLAGS) -o $@ $^ $(CXXLINKS)</code> 编译并链接生成 <code>package.so</code>.</li>
+</ul>
+<h2 id="运行测试文件"><a href="#运行测试文件" class="headerlink" title="运行测试文件"></a>运行测试文件</h2><p>运行测试文件 <code>test.py</code>, 能正常使用.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3                                                                                                                  │  ~</span><br><span class="line">3.0                                                                                                                │  ~</span><br><span class="line">-1</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://seisman.github.io/how-to-write-makefile/Makefile.pdf" rel="external nofollow noopener noreferrer" target="_blank">跟我一起写 Makefile</a></li>
+<li><a href="https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-reduce-the-build-time" rel="external nofollow noopener noreferrer" target="_blank">How can I reduce the build time?</a></li>
+<li><a href="https://github.com/pybind/pybind11/issues/382" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/pybind/pybind11/issues/382</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/大数据相关/Hive/Hive使用/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Hive使用</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            xzml &copy; 2019 
+            <a rel="external nofollow noopener noreferrer" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>. Theme - <a href="https://github.com/zthxxx/hexo-theme-Wikitten" rel="external nofollow noopener noreferrer" target="_blank">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>

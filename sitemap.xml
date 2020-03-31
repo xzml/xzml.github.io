@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Make-Life-Easier/</loc>
+    
+    <lastmod>2020-03-31T14:24:24.775Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/wiki/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80/Python/PyBind11/pybind11%E4%BD%BF%E7%94%A8demo/</loc>
     
     <lastmod>2019-09-07T07:38:25.330Z</lastmod>
@@ -89,13 +96,6 @@
     <loc>http://yoursite.com/wiki/%E6%8A%80%E6%9C%AF%E5%BC%80%E5%8F%91/Unix/Ubuntu/Ubuntu%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85/</loc>
     
     <lastmod>2019-01-11T02:57:48.803Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/wiki/%E6%9F%90%E4%BA%9BTricks/Make-Life-Easier/</loc>
-    
-    <lastmod>2019-01-05T03:01:21.649Z</lastmod>
     
   </url>
   
